@@ -138,6 +138,28 @@ td.pn{font-weight:600}
 }
 @media (prefers-reduced-motion:no-preference){ main{transition:opacity .15s} }
 
+/* probable pitchers bar (top of page) */
+.probables{max-width:1380px;margin:0 auto;padding-inline:20px;padding-block:14px 0}
+.probables:empty{display:none}
+.pp{background:#121417;color:#fff;border-radius:12px;padding:10px 12px}
+.pp-h{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:8px;font-size:12px;color:#9aa3a0}
+.pp-h b{font-family:var(--f-display);font-size:15px;letter-spacing:.08em;color:#fff;font-weight:700}
+.pp-row{display:flex;gap:8px;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:2px}
+.pp-day{flex:0 0 auto;align-self:center;font-family:var(--f-display);font-size:11px;letter-spacing:.1em;color:#9aa3a0;writing-mode:vertical-rl;transform:rotate(180deg)}
+.pp-g{flex:0 0 auto;min-width:172px;background:#1c2024;border-radius:8px;padding:7px 10px;font-size:12.5px}
+.pp-g.live{box-shadow:inset 0 0 0 1.5px #4cc79c}
+.pp-m{display:flex;justify-content:space-between;gap:10px;color:#9aa3a0;font-size:11px;margin-bottom:4px;font-family:var(--f-data)}
+.pp-m .lv{color:#4cc79c;font-family:var(--f-body);font-weight:600}
+.pp-p{display:flex;align-items:center;gap:6px;line-height:1.6}
+.pp-p .ab{color:#9aa3a0;width:32px;font-size:11px;font-family:var(--f-data)}
+.pp-p .sw{margin:0;outline:1px solid rgba(255,255,255,.18)}
+.pp-p button{background:none;border:0;padding:0;font:inherit;color:#fff;cursor:pointer;text-align:left;touch-action:manipulation}
+.pp-p button:hover{color:#4cc79c;text-decoration:underline}
+.pp-p button:focus-visible{outline:2px solid #4cc79c;outline-offset:2px}
+.pp-p .tbd{color:#6b7470}
+.pp-p .hd{color:#9aa3a0;font-size:11px}
+.pp-p .short{display:none}
+@media (max-width:760px){ .probables{padding-inline:16px} .pp-g{min-width:150px} .pp-p .full{display:none} .pp-p .short{display:inline} .pp-h span{display:none} }
 /* duels strip, matchups, october */
 .duels{margin-bottom:22px}
 .duels>header{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:8px}
@@ -241,6 +263,7 @@ td.pn{font-weight:600}
 <div id="nojs" style="margin:16px;padding:16px 18px;border-radius:12px;background:#0d6b4f;color:#fff;font:16px/1.45 -apple-system,system-ui,sans-serif"><b style="display:block;font-size:18px;margin-bottom:4px">This preview can't run the page</b>Your phone is showing a file preview, which turns off the pitcher list, charts and game. <a href="https://claude.ai/artifact/96KV9kShX2crXxXCHpBo6i" style="display:inline-block;margin-top:10px;padding:10px 16px;border-radius:999px;background:#fff;color:#0d6b4f;font-weight:600;text-decoration:none">Open October Gameplans</a></div><script>document.getElementById("nojs").remove()</script>
 
 
+<section class="probables" id="probables" aria-label="Probable pitchers"></section>
 <div class="wrap">
   <aside class="rail">
     <div class="brand">
@@ -595,6 +618,33 @@ function countGrid(h, p){
     }
   }
   return `<div class="panel">${panelHead(h,b,p)}${s}</div></div>`;
+}
+
+/* ---------- probable pitchers bar ---------- */
+function buildProbables(){
+  const el = document.getElementById('probables');
+  if(!META.duels.length){ el.innerHTML = ''; return; }
+  const todayKey = new Date().toLocaleDateString('en-CA');
+  const dayOf = d => { try{ return new Date(d.time).toLocaleDateString('en-CA'); }catch(e){ return d.date; } };
+  const dayLabel = d => { const k = dayOf(d); if(k === todayKey) return 'TODAY';
+    try{ return new Date(d.time).toLocaleDateString(undefined,{weekday:'short'}).toUpperCase(); }catch(e){ return d.date; } };
+  const timeOf = d => { try{ return new Date(d.time).toLocaleTimeString(undefined,{hour:'numeric', minute:'2-digit'}); }catch(e){ return ''; } };
+  const shortName = n => { const parts = n.split(' '); return parts.length > 1 ? parts[0][0] + '. ' + parts.slice(1).join(' ') : n; };
+  const side = (team, pid) => {
+    const p = DATA.find(x => x.id === pid), t = teamOf(team);
+    const who = p ? `<button data-id="${p.id}"><span class="full">${esc(p.name)}</span><span class="short">${esc(shortName(p.name))}</span></button><span class="hd">${p.throws}</span>`
+                  : `<span class="tbd">TBD</span>`;
+    return `<div class="pp-p"><span class="sw" style="background:${t.p}"></span><span class="ab">${t.ab}</span>${who}</div>`;
+  };
+  let html = '', lastDay = '';
+  for(const d of META.duels){
+    const lab = d.live ? (dayOf(d) === todayKey ? 'TONIGHT' : dayLabel(d)) : dayLabel(d);
+    if(lab !== lastDay){ html += `<div class="pp-day">${lab}</div>`; lastDay = lab; }
+    html += `<div class="pp-g${d.live ? ' live' : ''}"><div class="pp-m"><span>${esc(d.series)} G${d.game ?? ''}</span>${d.live ? '<span class="lv">Live now</span>' : `<span>${timeOf(d)}</span>`}</div>
+      ${side(d.away, d.awayP)}${side(d.home, d.homeP)}</div>`;
+  }
+  el.innerHTML = `<div class="pp"><div class="pp-h"><b>PROBABLE PITCHERS</b><span>Tap a name to open his gameplan</span></div><div class="pp-row">${html}</div></div>`;
+  el.onclick = e => { const b = e.target.closest('button[data-id]'); if(!b) return; pick(+b.dataset.id, false); document.getElementById('main').scrollIntoView({behavior:'smooth'}); };
 }
 
 /* ---------- tonight's duels ---------- */
@@ -1393,6 +1443,7 @@ const tip = document.getElementById('tip');
 document.addEventListener('mouseover', e => { const t = e.target.closest('[data-tip]'); if(!t){ tip.hidden = true; return; } tip.textContent = t.getAttribute('data-tip'); tip.hidden = false; });
 document.addEventListener('mousemove', e => { if(tip.hidden) return; const x = Math.min(e.clientX+14, window.innerWidth - tip.offsetWidth - 8); tip.style.left = x+'px'; tip.style.top = (e.clientY+14)+'px'; });
 
+buildProbables();
 buildNav();
 pick(state.id);
 </script>
