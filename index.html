@@ -51,8 +51,10 @@ h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;letter-spacing:
 .sline b.up{background:var(--gold-bg);color:var(--gold)}
 .sline b.down{background:color-mix(in srgb, var(--hot) 15%, var(--surface));color:var(--hot)}
 .sline b.tied{background:var(--line-2);color:var(--ink-2)}
-.pp-sw{margin-left:auto;font-family:var(--f-data);font-weight:600;font-size:12px;padding-left:8px}
-.pp-sw.up{color:#f2c94c}.pp-sw.down{color:#ff7b7b}.pp-sw.tied{color:#9aa3a0}
+.pp-sw{margin-left:auto;display:inline-flex;gap:3px;padding-left:10px}
+.pp-sw i{width:7px;height:7px;border-radius:50%;border:1.5px solid #4a5156;display:inline-block}
+.pp-sw.up i.on{background:#f2c94c;border-color:#f2c94c}.pp-sw.down i.on{background:#ff7b7b;border-color:#ff7b7b}.pp-sw.tied i.on{background:#9aa3a0;border-color:#9aa3a0}
+.pp-slab{font-family:var(--f-body);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:#7d8784;margin-left:auto}
 .spill{display:inline-block;margin-top:5px;font-size:11px;font-weight:600;padding:1px 8px;border-radius:999px}
 .spill.up{background:#3d3010;color:#f2c94c}.spill.down{background:#4a1d1d;color:#ff9a9a}.spill.tied{background:#2a3034;color:#c9d1ce}
 .pbtn{display:flex;justify-content:space-between;align-items:baseline;width:100%;text-align:left;background:none;border:0;border-radius:6px;padding:5px 8px;font:inherit;font-size:14px;color:var(--ink);cursor:pointer}
@@ -2035,7 +2037,7 @@ function buildProbables(){
     const who = p ? `<button data-id="${p.id}"><span class="full">${esc(p.name)}</span><span class="short">${esc(shortName(p.name))}</span></button><span class="hd">${p.throws}</span>`
                   : `<span class="tbd">TBD</span>`;
     const s = seriesState(team);
-    return `<div class="pp-p"><span class="sw" style="background:${t.p}"></span><span class="ab">${t.ab}</span>${who}${s ? `<b class="pp-sw ${s.cls}" title="Series wins">${s.w}</b>` : ''}</div>`;
+    return `<div class="pp-p"><span class="sw" style="background:${t.p}"></span><span class="ab">${t.ab}</span>${who}${s ? `<span class="pp-sw ${s.cls}" title="${s.w} series win${s.w===1?'':'s'}" aria-label="${s.w} series win${s.w===1?'':'s'}">${'<i class="on"></i>'.repeat(s.w)}${'<i></i>'.repeat(Math.max(0, s.need - s.w))}</span>` : ''}</div>`;
   };
   let html = '', lastDay = '';
   // finished games from the last day, with a report card for each starter
@@ -2053,7 +2055,7 @@ function buildProbables(){
   for(const d of META.duels){
     const lab = d.live ? (dayOf(d) === todayKey ? 'TONIGHT' : dayLabel(d)) : dayLabel(d);
     if(lab !== lastDay){ html += `<div class="pp-day">${lab}</div>`; lastDay = lab; }
-    html += `<div class="pp-g${d.live ? ' live' : ''}"><div class="pp-m"><span>${esc(d.series)} G${d.game ?? ''}</span>${d.live ? '<span class="lv">Live now</span>' : `<span>${timeOf(d)}</span>`}</div>
+    html += `<div class="pp-g${d.live ? ' live' : ''}"><div class="pp-m"><span>${esc(d.series)} G${d.game ?? ''}</span>${d.live ? '<span class="lv">Live now</span>' : `<span>${timeOf(d)}</span>`}</div>${seriesState(d.away) ? '<div class="pp-m" style="margin:-2px 0 1px"><span></span><span class="pp-slab">Series wins</span></div>' : ''}
       ${side(d.away, d.awayP)}${side(d.home, d.homeP)}${seriesPill(d.away, d.home)}
       ${(EXTRAS.watch[d.gamePk] || []).length ? `<button class="pp-w" data-panel="w:${d.gamePk}" aria-expanded="${openPanel==='w:'+d.gamePk}">What to watch</button>` : ''}</div>`;
   }
