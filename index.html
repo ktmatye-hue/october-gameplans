@@ -3373,7 +3373,7 @@ function resolvePitch(now){
       detail = `${G.p.names[pt.code]} ${where}${zi.inz?'':', out of the zone'}. You were ${timing}. ${a < 0.5 ? aimNote : ''}`;
       sfx('pop');
     } else {
-      const pf = clamp((zi.inz ? pm.fi : pm.fo) + (1-q)*0.2 + (1-a)*0.2 - (sitM===1 ? .08 : 0), .1, .85);
+      const pf = sitM===1 ? .03 : clamp((zi.inz ? pm.fi : pm.fo) + (1-q)*0.2 + (1-a)*0.2, .1, .85);   // sitting on it: contact almost never goes foul
       if(Math.random() < pf){
         if(G.s < 2) G.s++; res = 'Foul ball'; banner = 'FOUL'; post = 'foul';
         detail = `Fouled off the ${G.p.names[pt.code]} ${where}. You were ${timing}.`;
