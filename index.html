@@ -3073,6 +3073,11 @@ function drawPitcher(c, now){
   c.restore();
 }
 
+// contact zone on the bat's sweet spot: a tall oval (half-width, half-height in feet). zoneHit <= 1 means squared up.
+const zoneSize = () => [DIFF[G.diff].pci*0.52, DIFF[G.diff].pci*0.52];
+function zoneHit(aim, ball){ const [w, h] = zoneSize(); return Math.hypot((aim.x - ball.x)/w, (aim.z - ball.z)/h); }
+// bat shape traced from a bat picture (art/bat.png): [fraction from knob to tip, half-thickness as a fraction of length]
+const BAT_OUTLINE = [[0,.018],[.005,.0305],[.015,.0352],[.03,.029],[.045,.0227],[.06,.0196],[.08,.018],[.12,.0164],[.2,.018],[.3,.0188],[.4,.0211],[.5,.0274],[.6,.0336],[.7,.0368],[.78,.0383],[.96,.0383],[.985,.0352],[.995,.029],[1,.0117]];
 function drawBat(c, piv, th, len, alpha){
   const S = G.S, [hx, hy] = proj(piv.x, piv.z, 1), [tx, ty] = proj(piv.x + Math.cos(th)*len, piv.z + Math.sin(th)*len, 1);
   const L = Math.hypot(tx-hx, ty-hy) || 1, ang = Math.atan2(ty-hy, tx-hx);
@@ -3138,35 +3143,27 @@ function draw(now){
     c.fillStyle = '#fff'; c.font = `600 ${Math.round(S*0.11)}px IBM Plex Mono, monospace`; c.textBaseline = 'middle'; c.fillText(String(i+1), x, y+1); c.textBaseline = 'alphabetic';
     c.globalAlpha = 1;
   });
-  // hitting bubble (computer only): a see-through bat lying level, barrel on the aim point, handle toward your box.
-  // Contact is still judged by the round sweet spot, so this is a new look with the same feel.
+  // hitting bubble (computer only): an outline of the bat, its sweet spot (86% of the way to the end) on the aim point,
+  // tilted along the line from your hands to the ball the way the real swing comes through. Contact is judged by the circle (see zoneHit).
   if(MOUSE && G.phase!=='after'){
-    const [ax, ay] = proj(G.aim.x, G.aim.z, 1), R = DIFF[G.diff].vis*S, dir = G.hand==='R' ? -1 : 1;
+    const [ax, ay] = proj(G.aim.x, G.aim.z, 1), R = DIFF[G.diff].vis*S;
+    const [px, py] = proj((G.hand==='R' ? -1 : 1)*1.55, 3.1, 1), ang = Math.atan2(ay - py, ax - px);
     let hot = false;
     if(G.phase==='flight' && G.pitch){ const f = (now - G.pitch.start)/G.pitch.flight;
-      hot = f > 0.7 && Math.hypot(G.aim.x - G.pitch.x, G.aim.z - G.pitch.z) <= DIFF[G.diff].pci*0.6; }
-    const bh = R*0.42, hh = R*0.14, X = d => ax + dir*d;
+      hot = f > 0.7 && zoneHit(G.aim, G.pitch) <= 1; }
+    const Lb = R*3.4, top = BAT_OUTLINE.map(([f, w]) => [f*Lb, -w*Lb*1.3]), bot = BAT_OUTLINE.map(([f, w]) => [f*Lb, w*Lb*1.3]).reverse();
     c.save();
-    c.beginPath();
-    c.moveTo(X(-R*0.95), ay - bh);
-    c.lineTo(X(R*0.55), ay - bh);
-    c.quadraticCurveTo(X(R*1.0), ay - bh, X(R*1.35), ay - hh);
-    c.lineTo(X(R*2.05), ay - hh);
-    c.lineTo(X(R*2.05), ay + hh);
-    c.lineTo(X(R*1.35), ay + hh);
-    c.quadraticCurveTo(X(R*1.0), ay + bh, X(R*0.55), ay + bh);
-    c.lineTo(X(-R*0.95), ay + bh);
-    c.arc(X(-R*0.95), ay, bh, Math.PI/2, Math.PI*1.5, dir < 0);
-    c.closePath();
-    c.fillStyle = '#e2b479'; c.globalAlpha = hot ? .55 : .3; c.fill();
-    c.globalAlpha = 1; c.lineWidth = hot ? 3 : 1.6; c.strokeStyle = hot ? C['--accent'] : '#ba7517'; c.stroke();
-    c.fillStyle = '#8a5a2b'; c.globalAlpha = .7; c.beginPath(); c.ellipse(X(R*2.12), ay, R*0.07, hh*1.6, 0, 0, Math.PI*2); c.fill();
+    c.save(); c.translate(ax, ay); c.rotate(ang); c.translate(-0.86*Lb, 0);
+    c.beginPath(); [...top, ...bot].forEach(([x, y], k) => k ? c.lineTo(x, y) : c.moveTo(x, y)); c.closePath();
+    c.fillStyle = '#e2b479'; c.globalAlpha = hot ? .25 : .08; c.fill();
+    c.globalAlpha = hot ? 1 : .85; c.lineJoin = 'round'; c.lineWidth = hot ? 2.5 : 1.6; c.strokeStyle = hot ? C['--accent'] : '#e2b479'; c.stroke();
+    c.restore();
     // sweet spot on the barrel
-    const sw = R*1.0, sh = R*0.62;
-    c.beginPath(); c.roundRect ? c.roundRect(ax - sw/2, ay - sh/2, sw, sh, sh/2) : c.rect(ax - sw/2, ay - sh/2, sw, sh);
+    const [zw, zh] = zoneSize(), sw = 2*zw*S, sh = 2*zh*S;
+    c.beginPath(); c.ellipse(ax, ay, sw/2, sh/2, 0, 0, Math.PI*2);
     c.globalAlpha = hot ? .35 : .12; c.fillStyle = C['--accent']; c.fill();
     c.globalAlpha = .95; c.strokeStyle = C['--accent']; c.lineWidth = 1.5; c.setLineDash(hot ? [] : [4, 3]); c.stroke(); c.setLineDash([]);
-    c.globalAlpha = 1; c.fillStyle = C['--accent']; c.beginPath(); c.arc(ax, ay, 2.5, 0, Math.PI*2); c.fill();
+    c.globalAlpha = 1; c.fillStyle = C['--accent']; c.strokeStyle = '#fff'; c.lineWidth = 1.5; c.beginPath(); c.arc(ax, ay, Math.max(3.5, R*0.08), 0, Math.PI*2); c.fill(); c.stroke();
     c.restore();
   }
   // bat: swing (0-260ms), follow-through (260-480ms), fade out (480-680ms)
@@ -3351,8 +3348,8 @@ function resolvePitch(now){
     const timing = f < 0.80 ? 'way out in front' : f < 0.905 ? 'a little early' : f > 1.0 ? 'late' : 'right on time';
     meter.hidden = false;
     document.getElementById('gmark').style.left = `${clamp((f - 0.70)/0.40, 0, 1)*100}%`;
-    const aim = pt.swingAim, R = DIFF[G.diff].pci, d = Math.hypot(aim.x - pt.x, aim.z - pt.z);
-    const a = MOUSE ? (d <= R*0.6 ? 1 : clamp(1 - (d - R*0.6)/(R*1.8), 0, 1))
+    const aim = pt.swingAim, R = DIFF[G.diff].pci, d = Math.hypot(aim.x - pt.x, aim.z - pt.z), dn = zoneHit(aim, pt);
+    const a = MOUSE ? (dn <= 1 ? 1 : clamp(1 - (dn - 1)/3, 0, 1))
             : G.look==='ANY' ? clamp(0.85 - Math.max(0, d - 0.6)*0.5, 0.35, 0.85)
             : lookM ? 1 : clamp(0.75 - (d - R)/(R*3), 0.15, 0.75);
     const aimNote = MOUSE ? (a > 0.8 ? 'Squared up.' : aim.z > pt.z + R*0.5 ? 'You swung over it.' : aim.z < pt.z - R*0.5 ? 'You swung under it.' : 'Your barrel missed the spot.')
