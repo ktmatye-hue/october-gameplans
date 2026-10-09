@@ -3074,8 +3074,8 @@ function drawPitcher(c, now){
 }
 
 // contact zone on the bat's sweet spot: an oval lying along the bat (half-length along the barrel, half-width across it, in feet, as drawn).
-// zoneHit <= 1 means inside the drawn oval; a hit counts as squared up out to HIT_GRACE times the drawn size, so it's easier to hit than it looks.
-const HIT_GRACE = 1.3;
+// zoneHit <= 1 means inside the drawn oval; a hit counts as squared up out to HIT_GRACE times the drawn size (1 = exactly what you see).
+const HIT_GRACE = 1.0;
 const zoneSize = () => [DIFF[G.diff].pci*0.64, DIFF[G.diff].pci*0.42];
 // the bat's angle (in feet, z up) from your hands to the aim point, the line the swing comes through
 const batAngle = aim => Math.atan2(aim.z - 3.1, aim.x - (G.hand==='R' ? -1 : 1)*1.55);
@@ -3353,7 +3353,7 @@ function resolvePitch(now){
     detail = `${G.p.names[pt.code]} ${where}${zi.inz ? '' : ', off the plate'}.`;
     sfx('pop');
   } else {
-    const f = pt.swingF, q = clamp(1 - Math.abs(f - 0.952)/0.18, 0, 1);
+    const f = pt.swingF, q = clamp(1 - Math.abs(f - 0.952)/0.15, 0, 1);
     const timing = f < 0.80 ? 'way out in front' : f < 0.905 ? 'a little early' : f > 1.0 ? 'late' : 'right on time';
     meter.hidden = false;
     document.getElementById('gmark').style.left = `${clamp((f - 0.70)/0.40, 0, 1)*100}%`;
@@ -3373,7 +3373,9 @@ function resolvePitch(now){
       detail = `${G.p.names[pt.code]} ${where}${zi.inz?'':', out of the zone'}. You were ${timing}. ${a < 0.5 ? aimNote : ''}`;
       sfx('pop');
     } else {
-      const pf = sitM===1 ? .03 : clamp((zi.inz ? pm.fi : pm.fo) + (1-q)*0.2 + (1-a)*0.2, .1, .85);   // sitting on it: contact almost never goes foul
+      // the sitting rewards only kick in on a great swing: inside the oval, nearly on time, at a hittable pitch
+      const good = a >= 1 && q >= 0.75 && zi.dist <= 0.25;
+      const pf = sitM===1 && good ? .03 : clamp((zi.inz ? pm.fi : pm.fo) + (1-q)*0.2 + (1-a)*0.2, .1, .85);   // sitting on it: contact almost never goes foul
       if(Math.random() < pf){
         if(G.s < 2) G.s++; res = 'Foul ball'; banner = 'FOUL'; post = 'foul';
         detail = `Fouled off the ${G.p.names[pt.code]} ${where}. You were ${timing}.`;
@@ -3390,12 +3392,12 @@ function resolvePitch(now){
         const shr = la >= 18 && la <= 42 ? clamp((w - .3)*0.6, .01, .45) : 0;
         const s3 = la < 8 || la > 50 ? 0 : .02, s2 = la > 50 ? 0 : .2, s1 = 1 - shr - s3 - s2;
         const val = .89*s1 + 1.27*s2 + 1.62*s3 + 2.1*shr, ph = la > 50 ? .04 : clamp(w/val, .05, .85);
-        if(Math.random() < ph || minHit){
+        if(Math.random() < ph || (minHit && good)){
           const u = Math.random();
           let kind = u < shr ? 'HR' : u < shr + s3 ? '3B' : u < shr + s3 + s2 ? '2B' : '1B';
-          if(minHit === 2 && kind === '1B') kind = '2B';
+          if(minHit === 2 && good && kind === '1B') kind = '2B';
           // locked in: about a quarter of the hits leave the yard
-          if(locked && kind !== 'HR' && Math.random() < 0.2){ kind = 'HR'; la = 24 + Math.random()*10; ev = Math.max(ev, 102 + Math.random()*10); }
+          if(locked && good && kind !== 'HR' && Math.random() < 0.2){ kind = 'HR'; la = 24 + Math.random()*10; ev = Math.max(ev, 102 + Math.random()*10); }
           endAB = kind; cls = 'good';
           const dist = Math.round(360 + (ev - 95)*6 + Math.random()*30);
           res = {HR:`Home run, ${dist} ft to ${field}`, '3B':`Triple into the ${field} gap`, '2B':`Double to ${field}`, '1B': la < 8 ? `Ground ball single to ${field}` : la > 50 ? `Bloop single to ${field}` : `Line drive single to ${field}`}[kind];
