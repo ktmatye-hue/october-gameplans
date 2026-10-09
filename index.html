@@ -1964,7 +1964,7 @@ async function pollLive(){
   if(box && p) box.innerHTML = liveSection(p);
   const ban = document.getElementById('liveban'); if(ban && p) ban.innerHTML = liveBanner(p);
   markLiveTiles();
-  setTimeout(pollLive, any ? 90e3 : 10 * 60e3);
+  setTimeout(pollLive, any ? 3 * 60e3 : 10 * 60e3);
 }
 function readLive(f){
   const ld = f.liveData, box = ld.boxscore.teams, ls = ld.linescore, gd = f.gameData;
@@ -2015,7 +2015,7 @@ function liveSection(p){
     if(res.length >= 2){ const on = res.filter(x => ['single','double','triple','home_run','walk','hit_by_pitch','intent_walk'].includes(x.ev)).length;
       calls.push([on / res.length <= .25 ? 'hit' : on / res.length <= .4 ? 'part' : 'miss', `Hitters we gave him the edge on: ${on} on base in ${res.length} trips`]); } }
   const ICON = {hit:'✓', part:'~', miss:'✕'};
-  return `<section class="livesec"><div class="panel live"><div class="livehead"><span class="lvdot">● LIVE</span><span>${esc(L.tag)}</span><span class="z">updates every 90 seconds</span></div>
+  return `<section class="livesec"><div class="panel live"><div class="livehead"><span class="lvdot">● LIVE</span><span>${esc(L.tag)}</span><span class="z">updates every 3 minutes</span></div>
     <div class="pair" style="gap:16px;margin-top:8px"><div>
       <div class="liveline"><b>${L.ip} IP</b> · ${L.r} R · ${L.h} H · ${L.k} K · ${L.bb} BB · <b>${L.np} pitches</b></div>
       ${fb && inns.length ? `<div class="eyebrow" style="margin-top:10px">${esc(plain(fb))} speed by inning${norm ? ` (normal ${norm.toFixed(1)})` : ''}</div><div class="lvelo">${bars}</div>
