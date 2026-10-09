@@ -413,6 +413,17 @@ section{scroll-margin-top:56px}
 .plat{background:linear-gradient(135deg,#f4f4f2 0%,#d9dadb 35%,#f0f0ee 52%,#b9bcc0 78%,#e5e4e2 100%)}
 .series.cs>.eyebrow{background:linear-gradient(135deg,#f4f4f2 0%,#d9dadb 35%,#f0f0ee 52%,#b9bcc0 78%,#e5e4e2 100%);color:#1b1e22;border:0;border-radius:5px;padding:4px 8px}
 .pennant{margin-bottom:12px}
+.pennant.spot .pn-side{color:#fff;text-shadow:0 1px 4px rgba(0,0,0,.7)}
+.sp-mid{text-align:center;color:#fff;padding:6px 26px}
+.sp-mid b{display:block;font-family:var(--f-display);font-size:14px;letter-spacing:.3em;color:#ffb199;text-transform:uppercase}
+.sp-mid span{display:block;font-family:var(--f-display);font-size:clamp(36px,5vw,46px);font-weight:700;line-height:1;text-shadow:0 0 18px rgba(255,80,40,.7)}
+.sp-mid em{display:block;font-style:normal;font-family:var(--f-display);font-size:17px;font-weight:700;letter-spacing:.18em;text-transform:uppercase}
+.pp-g.elimg{outline:2px solid #e03a2f;outline-offset:-1px;padding-top:0;overflow:hidden;animation:elpulse 1.6s ease-in-out infinite}
+@keyframes elpulse{0%,100%{box-shadow:0 0 0 0 rgba(224,58,47,.55)}50%{box-shadow:0 0 0 6px rgba(224,58,47,0)}}
+.el-rib{margin:0 -10px 6px;background:#e03a2f;color:#fff;font-family:var(--f-display);font-weight:700;font-size:13px;letter-spacing:.12em;padding:2px 10px;text-transform:uppercase}
+.pp-g.liveban .el-rib{display:none}
+.sline b.elim{background:#e03a2f;color:#fff}
+@media (prefers-reduced-motion:reduce){ .pp-g.elimg{animation:none} }
 .pn-wave{position:relative;height:130px;border-radius:14px;overflow:hidden;background:linear-gradient(135deg,#d6d7d8 0%,#b4b7bb 35%,#cfd0d1 52%,#979ba1 78%,#c3c5c7 100%)}
 .pn-wave svg{position:absolute;inset:0;width:100%;height:100%}
 .hero{position:relative}
@@ -1663,6 +1674,10 @@ function seriesLine(p){
   if(el && ELIM[p.team]) return `<div class="sline"><b class="down">Eliminated</b><span>${esc(elimTag(el))} to the ${esc(tname(el.opp))}</span><button class="whybtn inline" data-elim="${esc(p.team)}">Why they lost →</button></div>`;
   const s = seriesState(p.team), r = recOf(p.team); if(!s) return '';
   const opp = tname(r.opp), pr = r.post ? ` · ${esc(tname(p.team))} are ${r.post[0]}-${r.post[1]} this postseason` : '';
+  const eg = elimOfTeam(p.team);
+  if(eg){ const nxt = NEXT_ROUND[s.rnd], opp2 = SERIES.find(x => x.name.includes('Waiting') && x.teams.length === 1);
+    const tail = eg.both ? `Series tied ${s.w}-${s.l}. The winner ${nxt && nxt !== 'title' ? `goes to the ${nxt}${opp2 && nxt.endsWith('CS') ? ` to face the ${tname(opp2.teams[0])}` : ''}` : 'wins it all'}.` : (eg.facing === p.team ? `Down ${s.w}-${s.l}: one more loss ends the season.` : `Up ${s.w}-${s.l}: one more win clinches.`);
+    return `<div class="sline"><b class="elim">Game ${eg.game} · ${eg.both ? 'Winner take all' : eg.facing === p.team ? 'Must win' : 'Can clinch'}</b><span>vs ${esc(tname(r.opp))}. ${esc(tail)}${r.post ? ` ${esc(tname(p.team))} are ${r.post[0]}-${r.post[1]} this postseason.` : ''}</span></div>`; }
   return `<div class="sline"><b class="${s.cls}${s.cls === 'tied' && csSeriesOf(p.team) ? ' plat' : ''}">${s.word} ${s.w}-${s.l}</b><span>vs ${esc(opp)} in the ${esc(s.rnd)}${s.note ? ` · ${s.note}` : ''}${pr}</span></div>`;
 }
 function seriesPill(away, home){
@@ -1720,7 +1735,7 @@ const f0 = v => v==null ? '–' : Math.round(v)+'%';
 const xw = v => v==null ? '–' : v.toFixed(3).replace(/^0/,'');
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const mon = d => new Date(d+'T12:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric'});
-const tname = t => t.split(' ').slice(-1)[0];
+const tname = t => { const w = t.split(' '); return w.length > 2 && ['White','Red','Blue'].includes(w[w.length-2]) ? w.slice(-2).join(' ') : w[w.length-1]; };
 
 let state = {id:null, pitch:'ALL', metric:'pct', mode:'fan', bat:null, speed:'pro'};
 try{ const s = JSON.parse(localStorage.getItem('og-state')||'null'); if(s) state = Object.assign(state, s); }catch(e){}
@@ -2082,7 +2097,7 @@ function showPreview(s){
     return `<tr><td>${g+1}</td>${cell(x).replace('<td class="">', `<td class="${ea}">`)}${cell(y).replace('<td class="">', `<td class="${eb}">`)}</tr>`; }).join('');
   const keys = previewKeys(s, A, B, rot);
   document.getElementById('main').innerHTML = `
-    ${cs ? pennant(s) : `<div class="teamband" aria-hidden="true"><i></i><i></i></div>`}
+    ${elimInfo(s) ? spotlight(elimInfo(s)) : cs ? pennant(s) : `<div class="teamband" aria-hidden="true"><i></i><i></i></div>`}
     <div class="hero"><div><div class="eyebrow">${esc(s.name.split(' · ')[0])} preview</div><h2>${esc(tname(a))} vs ${esc(tname(b))}</h2>
       <div class="sline">${shareBtn('preview/' + seriesKey(s), s.name)}</div></div></div>
     <section><div class="sechead"><h3>${esc(head)}</h3><p>Starting staffs side by side. Gold marks the edge in each row. ${esc(tname(a))} on the left, ${esc(tname(b))} on the right.</p></div>
@@ -2424,7 +2439,8 @@ function buildProbables(){
     const lab = d.live ? (dayOf(d) === todayKey ? 'TONIGHT' : dayLabel(d)) : dayLabel(d);
     if(lab !== lastDay){ html += `<div class="pp-day">${lab}</div>`; lastDay = lab; }
     const csT = /CS$/.test(d.series || '');
-    html += `<div class="pp-g${d.live ? ' live' : ''}${csT ? ' cs' : ''}" data-pk="${d.gamePk}"><div class="pp-m"><span>${csT ? `<span class="ppflag">${esc(d.series)}</span>G${d.game ?? ''}` : `${esc(d.series)} G${d.game ?? ''}`}</span>${d.live ? '<span class="lv">Live now</span>' : `<span>${timeOf(d)}</span>`}</div>${seriesState(d.away) ? '<div class="pp-m" style="margin:-2px 0 1px"><span></span><span class="pp-slab">Series wins</span></div>' : ''}
+    const elT = (() => { const sv = SERIES.find(x => x.teams.length === 2 && x.teams.includes(d.away) && x.teams.includes(d.home)); const e = elimInfo(sv); return e && d.game === e.game ? e : null; })();
+    html += `<div class="pp-g${d.live ? ' live' : ''}${csT ? ' cs' : ''}${elT ? ' elimg' : ''}" data-pk="${d.gamePk}">${elT ? `<div class="el-rib">⚠ ${elT.both ? 'Win or go home' : `${esc(teamOf(elT.facing).ab)} must win`}</div>` : ''}<div class="pp-m"><span>${csT ? `<span class="ppflag">${esc(d.series)}</span>G${d.game ?? ''}` : `${esc(d.series)} G${d.game ?? ''}`}</span>${d.live ? '<span class="lv">Live now</span>' : `<span>${timeOf(d)}</span>`}</div>${seriesState(d.away) ? '<div class="pp-m" style="margin:-2px 0 1px"><span></span><span class="pp-slab">Series wins</span></div>' : ''}
       ${side(d.away, d.awayP)}${side(d.home, d.homeP)}${seriesPill(d.away, d.home)}${(() => { const sv = SERIES.find(x => x.teams.length === 2 && x.teams.includes(d.away) && x.teams.includes(d.home)), o = sv && seriesOdds(sv); if(!o) return '';
         const gm = o.games.find(x => x.g === d.game && !x.done), fav = o.p[o.A] >= o.p[o.B] ? o.A : o.B;
         const gfav = gm ? (gm.pA >= .5 ? o.A : o.B) : null;
@@ -2593,7 +2609,38 @@ function hittersSection(p){
 }
 
 /* ---------- page ---------- */
+
+/* ---------- elimination games: dark "spotlight" banner, one beam per team ---------- */
+function elimInfo(s){
+  if(!s || s.teams.length !== 2) return null;
+  const [a, b] = s.teams, sa = seriesState(a), sb = seriesState(b); if(!sa || !sb) return null;
+  if(!sa.mustWin && !sb.mustWin) return null;
+  return {s, a, b, sa, sb, game: sa.w + sa.l + 1, both: sa.mustWin && sb.mustWin, facing: sa.mustWin && !sb.mustWin ? a : sb.mustWin && !sa.mustWin ? b : null};
+}
+const elimOfTeam = team => elimInfo(SERIES.find(x => x.teams.length === 2 && x.teams.includes(team)));
+function beamColor(team){ const t = teamOf(team); return [t.p, t.s, t.d].find(c => lumOf(c) >= .08) || t.s; }
+function spotlight(e, opts){
+  const W = 864, H = 130, ca = beamColor(e.a), cb = beamColor(e.b), od = seriesOdds(e.s);
+  let seed = 7; const rnd = () => (seed = (seed * 9301 + 49297) % 233280) / 233280;
+  let haze = ''; for(let k = 0; k < 70; k++) haze += `<circle cx="${(rnd() * W).toFixed(0)}" cy="${(rnd() * H).toFixed(0)}" r="${(rnd() * 1.2 + .3).toFixed(1)}" fill="#fff" opacity="${(rnd() * .32).toFixed(2)}"/>`;
+  const svg = `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" aria-hidden="true"><defs>
+      <linearGradient id="spBg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#05070a"/><stop offset="1" stop-color="#141a22"/></linearGradient>
+      <linearGradient id="spA" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="${ca}" stop-opacity=".8"/><stop offset="1" stop-color="${ca}" stop-opacity="0"/></linearGradient>
+      <linearGradient id="spB" x1="1" y1="1" x2="0" y2="0"><stop offset="0" stop-color="${cb}" stop-opacity=".8"/><stop offset="1" stop-color="${cb}" stop-opacity="0"/></linearGradient></defs>
+    <rect width="${W}" height="${H}" fill="url(#spBg)"/>
+    <polygon points="40,${H} 120,${H} ${W*.66},0 ${W*.52},0" fill="url(#spA)"/><polygon points="${W-40},${H} ${W-120},${H} ${W*.34},0 ${W*.48},0" fill="url(#spB)"/>
+    ${haze}<rect x="0" y="${H-12}" width="${W}" height="12" fill="#0b2b17" opacity=".9"/></svg>`;
+  const rnd_ = e.s.name.split(' · ')[0];
+  const side = (t, cls) => `<div class="pn-side ${cls}"><div class="pn-t"><span class="pn-full">${esc(tname(t))}</span><span class="pn-ab">${esc(teamOf(t).ab)}</span></div>${od ? `<div class="pn-pct">${pct(od.p[t])}</div><small>to win the series</small>` : ''}</div>`;
+  const call = e.both ? 'Winner take all' : `${tname(e.facing)} must win`;
+  return `<div class="pennant spot"><div class="pn-wave">${svg}<div class="pn-row">${side(e.a, 'a')}
+    <div class="sp-mid"><b>${esc(rnd_)} · Game ${e.game}</b><span>${e.sa.w} – ${e.sb.w}</span><em>${e.both ? 'Win or go home' : esc(call)}</em></div>
+    ${side(e.b, 'b')}</div></div>${opts && opts.link ? `<button class="pn-link" data-preview="${esc(seriesKey(e.s))}">Series preview →</button>` : ''}</div>`;
+}
+
 function csHead(p){
+  const el = elimOfTeam(p.team);
+  if(el) return spotlight(el, {link: true}) + `<div class="teamband" aria-hidden="true"><i></i><i></i></div>`;
   const s = csSeriesOf(p.team);
   if(!s) return `<div class="teamband" aria-hidden="true"><i></i><i></i></div>`;
   const acc = csAccents(...s.teams)[p.team];
