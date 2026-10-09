@@ -3340,8 +3340,8 @@ function resolvePitch(now){
   g.pc++;
   const sitM = G.sit==='ANY' ? 0 : (G.sit===pt.code ? 1 : -1);
   const lookM = lookMatch(pt.x, pt.z, zi.mid), where = words(pt.x, pt.z, zi.mid);
-  // sitting on the right pitch guarantees at least a single on a ball in play; right pitch AND right spot ("locked in") makes it a double or better 80% of the time
-  const locked = sitM===1 && lookM===true, minHit = sitM===1 ? (locked && Math.random() < 0.8 ? 2 : 1) : 0;
+  // sitting on the right pitch turns a great swing into a hard-hit ball; right pitch AND right spot ("locked in") hits it even harder
+  const locked = sitM===1 && lookM===true;
   const swung = pt.swingF != null;
   let res, banner, cls = '', detail = '', endAB = null, post = 'catch', batted = null;
   const meter = document.getElementById('gmeter');
@@ -3389,15 +3389,17 @@ function resolvePitch(now){
         const pull = f < 0.93, oppo = f > 0.98;
         const field = G.hand==='R' ? (pull ? 'left' : oppo ? 'right' : 'center') : (pull ? 'right' : oppo ? 'left' : 'center');
         const sprayX = field==='left' ? -1 : field==='right' ? 1 : (Math.random()-0.5)*0.6;
+        if(sitM===1 && good){   // hard-hit ball: 95+ mph on a line (locked in: 100+ and a little more lift)
+          w = Math.max(w, locked ? 1.1 : 0.95);
+          ev = Math.max(ev, locked ? 100 + Math.random()*10 : 95 + Math.random()*8);
+          la = locked ? 12 + Math.random()*20 : 6 + Math.random()*22;
+        }
         const shr = la >= 18 && la <= 42 ? clamp((w - .3)*0.6, .01, .45) : 0;
         const s3 = la < 8 || la > 50 ? 0 : .02, s2 = la > 50 ? 0 : .2, s1 = 1 - shr - s3 - s2;
         const val = .89*s1 + 1.27*s2 + 1.62*s3 + 2.1*shr, ph = la > 50 ? .04 : clamp(w/val, .05, .85);
-        if(Math.random() < ph || (minHit && good)){
+        if(Math.random() < ph){
           const u = Math.random();
-          let kind = u < shr ? 'HR' : u < shr + s3 ? '3B' : u < shr + s3 + s2 ? '2B' : '1B';
-          if(minHit === 2 && good && kind === '1B') kind = '2B';
-          // locked in: about a quarter of the hits leave the yard
-          if(locked && good && kind !== 'HR' && Math.random() < 0.2){ kind = 'HR'; la = 24 + Math.random()*10; ev = Math.max(ev, 102 + Math.random()*10); }
+          const kind = u < shr ? 'HR' : u < shr + s3 ? '3B' : u < shr + s3 + s2 ? '2B' : '1B';
           endAB = kind; cls = 'good';
           const dist = Math.round(360 + (ev - 95)*6 + Math.random()*30);
           res = {HR:`Home run, ${dist} ft to ${field}`, '3B':`Triple into the ${field} gap`, '2B':`Double to ${field}`, '1B': la < 8 ? `Ground ball single to ${field}` : la > 50 ? `Bloop single to ${field}` : `Line drive single to ${field}`}[kind];
