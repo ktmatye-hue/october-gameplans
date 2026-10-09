@@ -3073,7 +3073,9 @@ function drawPitcher(c, now){
   c.restore();
 }
 
-// contact zone on the bat's sweet spot: a tall oval (half-width, half-height in feet). zoneHit <= 1 means squared up.
+// contact zone on the bat's sweet spot (half-width, half-height in feet, as drawn). zoneHit <= 1 means inside the drawn circle;
+// a hit counts as squared up out to HIT_GRACE times the drawn size, so it's easier to hit than it looks.
+const HIT_GRACE = 1.3;
 const zoneSize = () => [DIFF[G.diff].pci*0.52, DIFF[G.diff].pci*0.52];
 function zoneHit(aim, ball){ const [w, h] = zoneSize(); return Math.hypot((aim.x - ball.x)/w, (aim.z - ball.z)/h); }
 // bat shape traced from a bat picture (art/bat.png): [fraction from knob to tip, half-thickness as a fraction of length]
@@ -3150,7 +3152,7 @@ function draw(now){
     const [px, py] = proj((G.hand==='R' ? -1 : 1)*1.55, 3.1, 1), ang = Math.atan2(ay - py, ax - px);
     let hot = false;
     if(G.phase==='flight' && G.pitch){ const f = (now - G.pitch.start)/G.pitch.flight;
-      hot = f > 0.7 && zoneHit(G.aim, G.pitch) <= 1; }
+      hot = f > 0.7 && zoneHit(G.aim, G.pitch) <= HIT_GRACE; }
     const Lb = R*3.4, top = BAT_OUTLINE.map(([f, w]) => [f*Lb, -w*Lb*1.3]), bot = BAT_OUTLINE.map(([f, w]) => [f*Lb, w*Lb*1.3]).reverse();
     c.save();
     c.save(); c.translate(ax, ay); c.rotate(ang); c.translate(-0.86*Lb, 0);
@@ -3349,7 +3351,7 @@ function resolvePitch(now){
     meter.hidden = false;
     document.getElementById('gmark').style.left = `${clamp((f - 0.70)/0.40, 0, 1)*100}%`;
     const aim = pt.swingAim, R = DIFF[G.diff].pci, d = Math.hypot(aim.x - pt.x, aim.z - pt.z), dn = zoneHit(aim, pt);
-    const a = MOUSE ? (dn <= 1 ? 1 : clamp(1 - (dn - 1)/3, 0, 1))
+    const a = MOUSE ? (dn <= HIT_GRACE ? 1 : clamp(1 - (dn - HIT_GRACE)/3, 0, 1))
             : G.look==='ANY' ? clamp(0.85 - Math.max(0, d - 0.6)*0.5, 0.35, 0.85)
             : lookM ? 1 : clamp(0.75 - (d - R)/(R*3), 0.15, 0.75);
     const aimNote = MOUSE ? (a > 0.8 ? 'Squared up.' : aim.z > pt.z + R*0.5 ? 'You swung over it.' : aim.z < pt.z - R*0.5 ? 'You swung under it.' : 'Your barrel missed the spot.')
