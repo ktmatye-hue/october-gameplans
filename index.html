@@ -3375,7 +3375,8 @@ function resolvePitch(now){
     } else {
       // the sitting rewards only kick in on a great swing: inside the oval, nearly on time, at a hittable pitch
       const good = a >= 1 && q >= 0.75 && zi.dist <= 0.25;
-      const pf = sitM===1 && good ? .03 : clamp((zi.inz ? pm.fi : pm.fo) + (1-q)*0.2 + (1-a)*0.2, .1, .85);   // sitting on it: contact almost never goes foul
+      // sitting on it and "right on time" (same window as the timing message): never a foul, it's in play
+      const pf = sitM===1 && f >= 0.905 && f <= 1.0 ? 0 : clamp((zi.inz ? pm.fi : pm.fo) + (1-q)*0.2 + (1-a)*0.2, .1, .85);
       if(Math.random() < pf){
         if(G.s < 2) G.s++; res = 'Foul ball'; banner = 'FOUL'; post = 'foul';
         detail = `Fouled off the ${G.p.names[pt.code]} ${where}. You were ${timing}.`;
