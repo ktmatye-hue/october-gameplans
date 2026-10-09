@@ -3394,6 +3394,7 @@ function resolvePitch(now){
           ev = Math.max(ev, locked ? 100 + Math.random()*10 : 95 + Math.random()*8);
           la = locked ? 12 + Math.random()*20 : 6 + Math.random()*22;
         }
+        else if(good){ la = 10 + Math.random()*24; w = Math.max(w, 0.5); }   // a great swing with no guess: a real line drive, sometimes enough lift to leave the yard
         const shr = la >= 18 && la <= 42 ? clamp((w - .3)*0.6, .01, .45) : 0;
         const s3 = la < 8 || la > 50 ? 0 : .02, s2 = la > 50 ? 0 : .2, s1 = 1 - shr - s3 - s2;
         const val = .89*s1 + 1.27*s2 + 1.62*s3 + 2.1*shr, ph = la > 50 ? .04 : clamp(w/val, .05, .85);
