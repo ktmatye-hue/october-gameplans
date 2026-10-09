@@ -305,7 +305,7 @@ td.pn{font-weight:600}
 #gcv{display:block;border-radius:8px;max-width:100%}
 .gmeter{width:100%}
 .mtrack{position:relative;height:10px;border-radius:5px;background:var(--line)}
-.mwin{position:absolute;left:55%;width:17.5%;top:0;bottom:0;background:var(--accent);opacity:.35;border-radius:5px}
+.mwin{position:absolute;left:51.25%;width:23.75%;top:0;bottom:0;background:var(--accent);opacity:.35;border-radius:5px}
 .mmark{position:absolute;top:-4px;width:4px;height:18px;margin-left:-2px;background:var(--ink);border-radius:2px;transition:left .15s}
 .mlabels{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-top:4px}
 .gmsg{min-height:46px;font-size:15px;padding:8px 12px;border-radius:8px;background:var(--line-2)}
@@ -2859,9 +2859,9 @@ for(const g of Object.values(GAME)) for(const h of Object.values(g.h)) for(const
   const out = []; for(let i=0;i<s.length;i+=7) out.push(parseInt(s[i],36), parseInt(s.substr(i+1,2),36)-600, parseInt(s.substr(i+3,2),36)-600, parseInt(s.substr(i+5,2),36));
   h.c[k] = out; }
 const DIFF = {
-  rookie:{speed:3.0,  pci:0.62, rec:[0.22,0.45], label:'Rookie'},
-  pro:   {speed:2.4,  pci:0.48, rec:[0.30,0.62], label:'Pro'},
-  ace:   {speed:1.85, pci:0.38, rec:[0.38,0.75], label:'Ace'}};
+  rookie:{speed:3.0,  pci:0.80, rec:[0.22,0.45], label:'Rookie'},
+  pro:   {speed:2.4,  pci:0.62, rec:[0.30,0.62], label:'Pro'},
+  ace:   {speed:1.85, pci:0.50, rec:[0.38,0.75], label:'Ace'}};
 const WINDUP = 700;
 const MOUSE = window.matchMedia ? matchMedia('(hover: hover) and (pointer: fine)').matches : false;
 let G = null, raf = 0, autoT = 0;
@@ -3347,12 +3347,12 @@ function resolvePitch(now){
     detail = `${G.p.names[pt.code]} ${where}${zi.inz ? '' : ', off the plate'}.`;
     sfx('pop');
   } else {
-    const f = pt.swingF, q = clamp(1 - Math.abs(f - 0.955)/0.14, 0, 1);
-    const timing = f < 0.82 ? 'way out in front' : f < 0.92 ? 'a little early' : f > 0.99 ? 'late' : 'right on time';
+    const f = pt.swingF, q = clamp(1 - Math.abs(f - 0.952)/0.18, 0, 1);
+    const timing = f < 0.80 ? 'way out in front' : f < 0.905 ? 'a little early' : f > 1.0 ? 'late' : 'right on time';
     meter.hidden = false;
     document.getElementById('gmark').style.left = `${clamp((f - 0.70)/0.40, 0, 1)*100}%`;
     const aim = pt.swingAim, R = DIFF[G.diff].pci, d = Math.hypot(aim.x - pt.x, aim.z - pt.z);
-    const a = MOUSE ? (d <= R*0.5 ? 1 : clamp(1 - (d - R*0.5)/(R*1.5), 0, 1))
+    const a = MOUSE ? (d <= R*0.6 ? 1 : clamp(1 - (d - R*0.6)/(R*1.8), 0, 1))
             : G.look==='ANY' ? clamp(0.85 - Math.max(0, d - 0.6)*0.5, 0.35, 0.85)
             : lookM ? 1 : clamp(0.75 - (d - R)/(R*3), 0.15, 0.75);
     const aimNote = MOUSE ? (a > 0.8 ? 'Squared up.' : aim.z > pt.z + R*0.5 ? 'You swung over it.' : aim.z < pt.z - R*0.5 ? 'You swung under it.' : 'Your barrel missed the spot.')
