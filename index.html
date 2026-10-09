@@ -2859,9 +2859,9 @@ for(const g of Object.values(GAME)) for(const h of Object.values(g.h)) for(const
   const out = []; for(let i=0;i<s.length;i+=7) out.push(parseInt(s[i],36), parseInt(s.substr(i+1,2),36)-600, parseInt(s.substr(i+3,2),36)-600, parseInt(s.substr(i+5,2),36));
   h.c[k] = out; }
 const DIFF = {
-  rookie:{speed:3.0,  pci:0.80, rec:[0.22,0.45], label:'Rookie'},
-  pro:   {speed:2.4,  pci:0.62, rec:[0.30,0.62], label:'Pro'},
-  ace:   {speed:1.85, pci:0.50, rec:[0.38,0.75], label:'Ace'}};
+  rookie:{speed:3.0,  pci:0.80, vis:0.62, rec:[0.22,0.45], label:'Rookie'},
+  pro:   {speed:2.4,  pci:0.62, vis:0.48, rec:[0.30,0.62], label:'Pro'},
+  ace:   {speed:1.85, pci:0.50, vis:0.38, rec:[0.38,0.75], label:'Ace'}};
 const WINDUP = 700;
 const MOUSE = window.matchMedia ? matchMedia('(hover: hover) and (pointer: fine)').matches : false;
 let G = null, raf = 0, autoT = 0;
@@ -3141,10 +3141,10 @@ function draw(now){
   // hitting bubble (computer only): a see-through bat lying level, barrel on the aim point, handle toward your box.
   // Contact is still judged by the round sweet spot, so this is a new look with the same feel.
   if(MOUSE && G.phase!=='after'){
-    const [ax, ay] = proj(G.aim.x, G.aim.z, 1), R = DIFF[G.diff].pci*S, dir = G.hand==='R' ? -1 : 1;
+    const [ax, ay] = proj(G.aim.x, G.aim.z, 1), R = DIFF[G.diff].vis*S, dir = G.hand==='R' ? -1 : 1;
     let hot = false;
     if(G.phase==='flight' && G.pitch){ const f = (now - G.pitch.start)/G.pitch.flight;
-      hot = f > 0.7 && Math.hypot(G.aim.x - G.pitch.x, G.aim.z - G.pitch.z) <= DIFF[G.diff].pci*0.5; }
+      hot = f > 0.7 && Math.hypot(G.aim.x - G.pitch.x, G.aim.z - G.pitch.z) <= DIFF[G.diff].pci*0.6; }
     const bh = R*0.42, hh = R*0.14, X = d => ax + dir*d;
     c.save();
     c.beginPath();
