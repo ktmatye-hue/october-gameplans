@@ -3430,7 +3430,7 @@ function resolvePitch(now){
   }
   G.log.push({code:pt.code, v:pt.v, x:pt.x, z:pt.z, res});
   G.banner = {text: banner, cls, t0: now};
-  setMsg(`${res}. ${pt.v.toFixed(1)} mph. ${detail}${G.sit!=='ANY' ? (locked ? (batted && !batted.out ? ' Locked in: you sat on that pitch in that spot, so contact means a hit, usually a double or better.' : ' Locked in: you sat on that pitch in that spot.') : sitM===1 ? (batted && !batted.out ? ' You sat on it, so contact means at least a single.' : ' You sat on it and picked it up early.') : ` You were sitting ${G.p.names[G.sit]}.`) : ''} ${extra}`.replace(/\s+/g,' ').trim(), cls);
+  setMsg(`${res}. ${pt.v.toFixed(1)} mph. ${detail}${G.sit!=='ANY' ? (locked ? ' Locked in: you sat on that pitch in that spot.' : sitM===1 ? ' You sat on it and picked it up early.' : ` You were sitting ${G.p.names[G.sit]}.`) : ''} ${extra}`.replace(/\s+/g,' ').trim(), cls);
   // ball animation after the pitch
   const x0 = pt.x, z0 = pt.z;
   if(post==='catch') G.post = {dur: 260, fn: u => ({x: x0, z: z0 - 0.3*u, k: 1 + 0.6*u, a: 1 - u})};
