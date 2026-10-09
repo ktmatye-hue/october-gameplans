@@ -3073,11 +3073,16 @@ function drawPitcher(c, now){
   c.restore();
 }
 
-// contact zone on the bat's sweet spot (half-width, half-height in feet, as drawn). zoneHit <= 1 means inside the drawn circle;
-// a hit counts as squared up out to HIT_GRACE times the drawn size, so it's easier to hit than it looks.
+// contact zone on the bat's sweet spot: an oval lying along the bat (half-length along the barrel, half-width across it, in feet, as drawn).
+// zoneHit <= 1 means inside the drawn oval; a hit counts as squared up out to HIT_GRACE times the drawn size, so it's easier to hit than it looks.
 const HIT_GRACE = 1.3;
-const zoneSize = () => [DIFF[G.diff].pci*0.52, DIFF[G.diff].pci*0.52];
-function zoneHit(aim, ball){ const [w, h] = zoneSize(); return Math.hypot((aim.x - ball.x)/w, (aim.z - ball.z)/h); }
+const zoneSize = () => [DIFF[G.diff].pci*0.64, DIFF[G.diff].pci*0.42];
+// the bat's angle (in feet, z up) from your hands to the aim point, the line the swing comes through
+const batAngle = aim => Math.atan2(aim.z - 3.1, aim.x - (G.hand==='R' ? -1 : 1)*1.55);
+function zoneHit(aim, ball){
+  const [w, h] = zoneSize(), t = batAngle(aim), dx = ball.x - aim.x, dz = ball.z - aim.z;
+  return Math.hypot((dx*Math.cos(t) + dz*Math.sin(t))/w, (-dx*Math.sin(t) + dz*Math.cos(t))/h);
+}
 // bat shape traced from a bat picture (art/bat.png): [fraction from knob to tip, half-thickness as a fraction of length]
 const BAT_OUTLINE = [[0,.018],[.005,.0305],[.015,.0352],[.03,.029],[.045,.0227],[.06,.0196],[.08,.018],[.12,.0164],[.2,.018],[.3,.0188],[.4,.0211],[.5,.0274],[.6,.0336],[.7,.0368],[.78,.0383],[.96,.0383],[.985,.0352],[.995,.029],[1,.0117]];
 function drawBat(c, piv, th, len, alpha){
@@ -3146,7 +3151,7 @@ function draw(now){
     c.globalAlpha = 1;
   });
   // hitting bubble (computer only): an outline of the bat, its sweet spot (86% of the way to the end) on the aim point,
-  // tilted along the line from your hands to the ball the way the real swing comes through. Contact is judged by the circle (see zoneHit).
+  // tilted along the line from your hands to the ball the way the real swing comes through. Contact is judged by the oval (see zoneHit).
   if(MOUSE && G.phase!=='after'){
     const [ax, ay] = proj(G.aim.x, G.aim.z, 1), R = DIFF[G.diff].vis*S;
     const [px, py] = proj((G.hand==='R' ? -1 : 1)*1.55, 3.1, 1), ang = Math.atan2(ay - py, ax - px);
@@ -3162,7 +3167,7 @@ function draw(now){
     c.restore();
     // sweet spot on the barrel
     const [zw, zh] = zoneSize(), sw = 2*zw*S, sh = 2*zh*S;
-    c.beginPath(); c.ellipse(ax, ay, sw/2, sh/2, 0, 0, Math.PI*2);
+    c.beginPath(); c.ellipse(ax, ay, sw/2, sh/2, ang, 0, Math.PI*2);
     c.globalAlpha = hot ? .35 : .12; c.fillStyle = C['--accent']; c.fill();
     c.globalAlpha = .95; c.strokeStyle = C['--accent']; c.lineWidth = 1.5; c.setLineDash(hot ? [] : [4, 3]); c.stroke(); c.setLineDash([]);
     c.globalAlpha = 1; c.fillStyle = C['--accent']; c.strokeStyle = '#fff'; c.lineWidth = 1.5; c.beginPath(); c.arc(ax, ay, Math.max(3.5, R*0.08), 0, Math.PI*2); c.fill(); c.stroke();
