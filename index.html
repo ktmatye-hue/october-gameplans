@@ -441,6 +441,16 @@ section{scroll-margin-top:56px}
 .pl-rib{margin:0 -10px 6px;background:#4cc79c;color:#08261b;font-family:var(--f-display);font-weight:700;font-size:13px;letter-spacing:.14em;padding:2px 10px}
 .pl-rib i,.pageban .lb i{display:inline-block;width:7px;height:7px;border-radius:50%;background:currentColor;margin-right:6px;vertical-align:1px;animation:blink 1.2s infinite}
 @keyframes blink{50%{opacity:.25}}
+.oddsbar{display:flex;height:10px;border-radius:5px;overflow:hidden;margin:8px 3px 4px}.oddsbar i{display:block}
+.pennant .oddsbar{margin:6px 6px 3px}
+.oddslab{display:flex;justify-content:space-between;font-family:var(--f-display);font-weight:700;font-size:17px;text-transform:uppercase;margin-bottom:6px}
+.pn-pct{font-family:var(--f-display);font-weight:700;font-size:clamp(18px,2.6vw,24px);line-height:1.1;margin-top:3px}
+.proj tr.done td{color:var(--muted)}
+.outs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:12px}
+.outs .o{border:1px solid var(--line);border-radius:8px;padding:6px 8px;text-align:center;font-size:12px;color:var(--ink-2)}
+.outs .o b{display:block;font-family:var(--f-display);font-size:20px;color:var(--ink)}
+.pp-odds{font-size:11px;color:#c9d1ce;margin-top:4px}
+@media (max-width:560px){ .outs{grid-template-columns:repeat(2,minmax(0,1fr))} .proj th,.proj td{padding:5px 3px;font-size:12px} .proj th{letter-spacing:0} }
 .pageban{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;background:color-mix(in srgb, #4cc79c 12%, var(--surface));border:1.5px solid #4cc79c;border-radius:10px;padding:8px 14px;font-size:14px;margin-bottom:12px}
 .pageban .lb{color:#2fa57a;font-family:var(--f-display);letter-spacing:.14em;font-size:16px}.pageban .pl-btn{margin:0 0 0 auto}
 @media (prefers-reduced-motion:reduce){ .pp-g.liveban,.pl-rib i,.pageban .lb i{animation:none} }
@@ -478,13 +488,58 @@ const DATA = [{"id":519242,"name":"Chris Sale","team":"Atlanta Braves","role":"S
       for(let i=0;i<20;i++){ const row = []; for(let j=0;j<20;j++) row.push(Math.round(parseInt(s[i*20+j],36)/35*99)); g.push(row); } b.heat[c] = g; }
     for(const c in b.zones) for(const z in b.zones[c]){ const a = b.zones[c][z]; if(Array.isArray(a)) b.zones[c][z] = Object.fromEntries(ZK.map((k,i)=>[k,a[i]])); } } })();
 const META = {
- "generated": "2026-10-08T18:40-07:00",
+ "generated": "2026-10-08T18:49-07:00",
  "series": [
   {
    "name": "NLCS \u00b7 Dodgers vs Brewers",
    "teams": [
     "Los Angeles Dodgers",
     "Milwaukee Brewers"
+   ],
+   "round": "L",
+   "games": [
+    {
+     "g": 1,
+     "home": "Milwaukee Brewers",
+     "time": "2026-10-12T00:00:00Z",
+     "won": null
+    },
+    {
+     "g": 2,
+     "home": "Milwaukee Brewers",
+     "time": "2026-10-12T21:00:00Z",
+     "won": null
+    },
+    {
+     "g": 3,
+     "home": "Los Angeles Dodgers",
+     "time": "2026-10-15T00:00:00Z",
+     "won": null
+    },
+    {
+     "g": 4,
+     "home": "Los Angeles Dodgers",
+     "time": "2026-10-16T01:00:00Z",
+     "won": null
+    },
+    {
+     "g": 5,
+     "home": "Los Angeles Dodgers",
+     "time": "2026-10-17T01:00:00Z",
+     "won": null
+    },
+    {
+     "g": 6,
+     "home": "Milwaukee Brewers",
+     "time": "2026-10-19T00:00:00Z",
+     "won": null
+    },
+    {
+     "g": 7,
+     "home": "Milwaukee Brewers",
+     "time": "2026-10-20T00:00:00Z",
+     "won": null
+    }
    ]
   },
   {
@@ -492,6 +547,39 @@ const META = {
    "teams": [
     "Chicago White Sox",
     "Cleveland Guardians"
+   ],
+   "round": "D",
+   "games": [
+    {
+     "g": 1,
+     "home": "Cleveland Guardians",
+     "time": "2026-10-03T17:00:00Z",
+     "won": "Chicago White Sox"
+    },
+    {
+     "g": 2,
+     "home": "Cleveland Guardians",
+     "time": "2026-10-05T21:00:00Z",
+     "won": "Chicago White Sox"
+    },
+    {
+     "g": 3,
+     "home": "Chicago White Sox",
+     "time": "2026-10-07T20:00:00Z",
+     "won": "Cleveland Guardians"
+    },
+    {
+     "g": 4,
+     "home": "Chicago White Sox",
+     "time": "2026-10-09T00:00:00Z",
+     "won": null
+    },
+    {
+     "g": 5,
+     "home": "Cleveland Guardians",
+     "time": "2026-10-11T00:00:00Z",
+     "won": null
+    }
    ]
   },
   {
@@ -833,164 +921,6 @@ const META = {
     }
    ]
   },
-  "Cleveland Guardians": {
-   "ref": "2026-10-08",
-   "arms": [
-    {
-     "id": 671922,
-     "name": "Cade Smith",
-     "closer": true,
-     "p": [
-      5,
-      0,
-      19
-     ],
-     "days": [
-      "2026-10-05",
-      "2026-10-06",
-      "2026-10-07"
-     ],
-     "status": "tired",
-     "rest": 0
-    },
-    {
-     "id": 670036,
-     "name": "Matt Festa",
-     "closer": false,
-     "p": [
-      0,
-      0,
-      0
-     ],
-     "days": [
-      "2026-10-05",
-      "2026-10-06",
-      "2026-10-07"
-     ],
-     "status": "fresh",
-     "rest": null
-    },
-    {
-     "id": 676440,
-     "name": "Tanner Bibee",
-     "closer": false,
-     "p": [
-      0,
-      0,
-      0
-     ],
-     "days": [
-      "2026-10-05",
-      "2026-10-06",
-      "2026-10-07"
-     ],
-     "status": "fresh",
-     "rest": null
-    },
-    {
-     "id": 681870,
-     "name": "Erik Sabrowski",
-     "closer": false,
-     "p": [
-      11,
-      0,
-      0
-     ],
-     "days": [
-      "2026-10-05",
-      "2026-10-06",
-      "2026-10-07"
-     ],
-     "status": "fresh",
-     "rest": 2
-    },
-    {
-     "id": 683769,
-     "name": "Hunter Gaddis",
-     "closer": false,
-     "p": [
-      17,
-      0,
-      12
-     ],
-     "days": [
-      "2026-10-05",
-      "2026-10-06",
-      "2026-10-07"
-     ],
-     "status": "tired",
-     "rest": 0
-    },
-    {
-     "id": 542888,
-     "name": "Shawn Armstrong",
-     "closer": false,
-     "p": [
-      16,
-      0,
-      5
-     ],
-     "days": [
-      "2026-10-05",
-      "2026-10-06",
-      "2026-10-07"
-     ],
-     "status": "tired",
-     "rest": 0
-    },
-    {
-     "id": 682120,
-     "name": "Tim Herrin",
-     "closer": false,
-     "p": [
-      0,
-      0,
-      18
-     ],
-     "days": [
-      "2026-10-05",
-      "2026-10-06",
-      "2026-10-07"
-     ],
-     "status": "tired",
-     "rest": 0
-    },
-    {
-     "id": 656492,
-     "name": "Foster Griffin",
-     "closer": false,
-     "p": [
-      0,
-      0,
-      53
-     ],
-     "days": [
-      "2026-10-05",
-      "2026-10-06",
-      "2026-10-07"
-     ],
-     "status": "out",
-     "rest": 0
-    },
-    {
-     "id": 676282,
-     "name": "Joey Cantillo",
-     "closer": false,
-     "p": [
-      0,
-      0,
-      25
-     ],
-     "days": [
-      "2026-10-05",
-      "2026-10-06",
-      "2026-10-07"
-     ],
-     "status": "out",
-     "rest": 0
-    }
-   ]
-  },
   "Chicago White Sox": {
    "ref": "2026-10-08",
    "arms": [
@@ -1289,28 +1219,186 @@ const META = {
      "rest": 3
     }
    ]
+  },
+  "Cleveland Guardians": {
+   "ref": "2026-10-08",
+   "arms": [
+    {
+     "id": 671922,
+     "name": "Cade Smith",
+     "closer": true,
+     "p": [
+      5,
+      0,
+      19
+     ],
+     "days": [
+      "2026-10-05",
+      "2026-10-06",
+      "2026-10-07"
+     ],
+     "status": "tired",
+     "rest": 0
+    },
+    {
+     "id": 670036,
+     "name": "Matt Festa",
+     "closer": false,
+     "p": [
+      0,
+      0,
+      0
+     ],
+     "days": [
+      "2026-10-05",
+      "2026-10-06",
+      "2026-10-07"
+     ],
+     "status": "fresh",
+     "rest": null
+    },
+    {
+     "id": 676440,
+     "name": "Tanner Bibee",
+     "closer": false,
+     "p": [
+      0,
+      0,
+      0
+     ],
+     "days": [
+      "2026-10-05",
+      "2026-10-06",
+      "2026-10-07"
+     ],
+     "status": "fresh",
+     "rest": null
+    },
+    {
+     "id": 681870,
+     "name": "Erik Sabrowski",
+     "closer": false,
+     "p": [
+      11,
+      0,
+      0
+     ],
+     "days": [
+      "2026-10-05",
+      "2026-10-06",
+      "2026-10-07"
+     ],
+     "status": "fresh",
+     "rest": 2
+    },
+    {
+     "id": 683769,
+     "name": "Hunter Gaddis",
+     "closer": false,
+     "p": [
+      17,
+      0,
+      12
+     ],
+     "days": [
+      "2026-10-05",
+      "2026-10-06",
+      "2026-10-07"
+     ],
+     "status": "tired",
+     "rest": 0
+    },
+    {
+     "id": 542888,
+     "name": "Shawn Armstrong",
+     "closer": false,
+     "p": [
+      16,
+      0,
+      5
+     ],
+     "days": [
+      "2026-10-05",
+      "2026-10-06",
+      "2026-10-07"
+     ],
+     "status": "tired",
+     "rest": 0
+    },
+    {
+     "id": 682120,
+     "name": "Tim Herrin",
+     "closer": false,
+     "p": [
+      0,
+      0,
+      18
+     ],
+     "days": [
+      "2026-10-05",
+      "2026-10-06",
+      "2026-10-07"
+     ],
+     "status": "tired",
+     "rest": 0
+    },
+    {
+     "id": 656492,
+     "name": "Foster Griffin",
+     "closer": false,
+     "p": [
+      0,
+      0,
+      53
+     ],
+     "days": [
+      "2026-10-05",
+      "2026-10-06",
+      "2026-10-07"
+     ],
+     "status": "out",
+     "rest": 0
+    },
+    {
+     "id": 676282,
+     "name": "Joey Cantillo",
+     "closer": false,
+     "p": [
+      0,
+      0,
+      25
+     ],
+     "days": [
+      "2026-10-05",
+      "2026-10-06",
+      "2026-10-07"
+     ],
+     "status": "out",
+     "rest": 0
+    }
+   ]
   }
  },
  "teamIds": {
   "Tampa Bay Rays": 139,
   "Los Angeles Dodgers": 119,
-  "Cleveland Guardians": 114,
   "Chicago White Sox": 145,
-  "Milwaukee Brewers": 158
+  "Milwaukee Brewers": 158,
+  "Cleveland Guardians": 114
  },
  "abbr": {
+  "Tampa Bay Rays": "TB",
+  "Los Angeles Dodgers": "LAD",
+  "Houston Astros": "HOU",
+  "Chicago White Sox": "CWS",
+  "Boston Red Sox": "BOS",
+  "San Diego Padres": "SD",
+  "Milwaukee Brewers": "MIL",
+  "Atlanta Braves": "ATL",
   "Chicago Cubs": "CHC",
   "Philadelphia Phillies": "PHI",
-  "Boston Red Sox": "BOS",
-  "Tampa Bay Rays": "TB",
-  "San Diego Padres": "SD",
-  "Los Angeles Dodgers": "LAD",
-  "New York Yankees": "NYY",
   "Cleveland Guardians": "CLE",
-  "Chicago White Sox": "CWS",
-  "Houston Astros": "HOU",
-  "Milwaukee Brewers": "MIL",
-  "Atlanta Braves": "ATL"
+  "New York Yankees": "NYY"
  },
  "record": {
   "Tampa Bay Rays": {
@@ -1332,20 +1420,6 @@ const META = {
    "need": 4,
    "round": "NLCS",
    "opp": "Milwaukee Brewers"
-  },
-  "Cleveland Guardians": {
-   "post": [
-    1,
-    2
-   ],
-   "series": [
-    1,
-    2
-   ],
-   "bestOf": 5,
-   "need": 3,
-   "round": "ALDS",
-   "opp": "Chicago White Sox"
   },
   "Chicago White Sox": {
    "post": [
@@ -1374,6 +1448,20 @@ const META = {
    "need": 4,
    "round": "NLCS",
    "opp": "Los Angeles Dodgers"
+  },
+  "Cleveland Guardians": {
+   "post": [
+    1,
+    2
+   ],
+   "series": [
+    1,
+    2
+   ],
+   "bestOf": 5,
+   "need": 3,
+   "round": "ALDS",
+   "opp": "Chicago White Sox"
   }
  },
  "eliminated": [
@@ -1812,10 +1900,81 @@ function pennant(s, opts){
   const [a, b] = s.teams, acc = csAccents(a, b), ra = recOf(a), rb = recOf(b);
   const wa = ra && ra.series ? ra.series[0] : 0, wb = rb && rb.series ? rb.series[0] : 0;
   const rnd = s.name.split(' · ')[0];
-  const side = (t, r, cls) => `<div class="pn-side ${cls}" style="--acc:${acc[t]}"><div class="pn-t"><span class="pn-full">${esc(tname(t))}</span><span class="pn-ab">${esc(teamOf(t).ab)}</span></div><small>${r ? `${r.post[0]}-${r.post[1]} this postseason` : ''}</small></div>`;
+  const od = seriesOdds(s);
+  const side = (t, r, cls) => `<div class="pn-side ${cls}" style="--acc:${acc[t]}"><div class="pn-t"><span class="pn-full">${esc(tname(t))}</span><span class="pn-ab">${esc(teamOf(t).ab)}</span></div>${od ? `<div class="pn-pct">${pct(od.p[t])}</div><small>to win the series</small>` : `<small>${r ? `${r.post[0]}-${r.post[1]} this postseason` : ''}</small>`}</div>`;
   return `<div class="pennant"><div class="pn-in">${side(a, ra, 'a')}
     <div class="pn-mid"><b>${esc(rnd)}</b><span>${wa} – ${wb}</span><em>Best of ${ra ? ra.bestOf : 7} · to the World Series</em></div>
-    ${side(b, rb, 'b')}</div>${opts && opts.link ? `<button class="pn-link" data-preview="${esc(seriesKey(s))}">Series preview →</button>` : ''}</div>`;
+    ${side(b, rb, 'b')}</div>${od ? oddsBar(od) : ''}${opts && opts.link ? `<button class="pn-link" data-preview="${esc(seriesKey(s))}">Series preview →</button>` : ''}</div>`;
+}
+
+/* ---------- who wins the series: starting-pitcher matchups + home field ---------- */
+// Each remaining game: 50% + the gap in the two starters' 2026 xwOBA allowed (x1.4) + 4 points for the home team.
+// Starters: MLB's announced probable, else the most-rested starter next in line. Series odds follow from the current score.
+function seriesOdds(s){
+  if(!s || s.teams.length !== 2 || !s.games || !s.games.length) return null;
+  const [A, B] = s.teams, n = s.games.length, need = Math.floor(n / 2) + 1;
+  const wA = s.games.filter(g => g.won === A).length, wB = s.games.filter(g => g.won === B).length;
+  const remaining = s.games.filter(g => !g.won);
+  const starters = {};
+  for(const t of s.teams){
+    const fixed = {};
+    for(const d of META.duels){ if(!s.teams.includes(d.away) || !s.teams.includes(d.home) || !d.game) continue;
+      const pid = d.away === t ? d.awayP : d.homeP; if(pid) fixed[d.game] = pid; }
+    const used = new Set(Object.values(fixed));
+    const queue = DATA.filter(p => p.team === t && p.role !== 'RP' && !used.has(p.id))
+      .sort((a, b) => (a.starts.at(-1)?.date || '').localeCompare(b.starts.at(-1)?.date || ''));
+    let qi = 0;
+    starters[t] = {};
+    for(const g of remaining){
+      if(fixed[g.g]) starters[t][g.g] = {p: DATA.find(x => x.id === fixed[g.g]), sure: true};
+      else if(queue.length) starters[t][g.g] = {p: queue[qi++ % queue.length], sure: false};
+    }
+  }
+  const games = s.games.map(g => {
+    if(g.won) return {...g, done: true};
+    const sa = starters[A][g.g], sb = starters[B][g.g];
+    const xa = sa && sa.p && sa.p.season.xwoba, xb = sb && sb.p && sb.p.season.xwoba;
+    let pA = .5 + (xa != null && xb != null ? (xb - xa) * 1.4 : 0) + (g.home === A ? .04 : -.04);
+    pA = Math.min(.8, Math.max(.2, pA));
+    return {...g, sa, sb, pA};
+  });
+  const dist = {};   // "Team|games" -> probability
+  const go = (i, a, b, pr) => {
+    if(a === need){ const k = A + '|' + (a + b); dist[k] = (dist[k] || 0) + pr; return; }
+    if(b === need){ const k = B + '|' + (a + b); dist[k] = (dist[k] || 0) + pr; return; }
+    const g = games.filter(x => !x.done)[i]; if(!g) return;
+    go(i + 1, a + 1, b, pr * g.pA); go(i + 1, a, b + 1, pr * (1 - g.pA));
+  };
+  go(0, wA, wB, 1);
+  const pA = Object.entries(dist).filter(([k]) => k.startsWith(A + '|')).reduce((x, [, v]) => x + v, 0);
+  const best = Object.entries(dist).sort((x, y) => y[1] - x[1])[0];
+  return {A, B, n, need, wA, wB, games, dist, p: {[A]: pA, [B]: 1 - pA}, best: best ? {team: best[0].split('|')[0], games: +best[0].split('|')[1]} : null};
+}
+const pct = v => Math.round(100 * v) + '%';
+function oddsBar(o){
+  const ca = csAccents(o.A, o.B);
+  return `<div class="oddsbar" title="${esc(tname(o.A))} ${pct(o.p[o.A])}, ${esc(tname(o.B))} ${pct(o.p[o.B])}"><i style="flex:${(100*o.p[o.A]).toFixed(1)};background:${ca[o.A]}"></i><i style="flex:${(100*o.p[o.B]).toFixed(1)};background:${ca[o.B]}"></i></div>`;
+}
+function projectionPanel(s){
+  const o = seriesOdds(s); if(!o) return '';
+  const a = tname(o.A), b = tname(o.B), ab = t => teamOf(t).ab;
+  const fav = o.p[o.A] >= o.p[o.B] ? o.A : o.B;
+  const bucket = (t, lo, hi) => Object.entries(o.dist).filter(([k]) => { const [tt, g] = k.split('|'); return tt === t && +g >= lo && +g <= hi; }).reduce((x, [, v]) => x + v, 0);
+  const short = o.n === 7 ? [[4, 5], [6, 7]] : o.n === 5 ? [[3, 4], [5, 5]] : [[2, 2], [3, 3]];
+  const label = ([lo, hi]) => lo === hi ? `in ${lo}` : `in ${lo}–${hi}`;
+  const rows = o.games.map(g => {
+    const where = `at ${esc(ab(g.home))}`;
+    if(g.done) return `<tr class="done"><td>${g.g}</td><td>${where}</td><td colspan="2" style="text-align:left;font-family:var(--f-body)">Final · ${esc(tname(g.won))} won</td><td></td></tr>`;
+    const nm = q => q && q.p ? `<button class="hlink" data-id="${q.p.id}">${esc(q.p.name.split(' ').slice(1).join(' ') || q.p.name)}</button>${q.sure ? '' : '<small class="z">*</small>'}` : '<span class="z">TBD</span>';
+    const ifn = g.g > (o.wA + o.wB) + (o.need - Math.max(o.wA, o.wB)) ? '<small class="z">*</small>' : '';
+    return `<tr><td>${g.g}${ifn}</td><td>${where}</td><td class="nm">${nm(g.sa)}</td><td class="nm">${nm(g.sb)}</td><td class="${g.pA >= .55 ? 'w' : ''}">${pct(g.pA)}</td></tr>`;
+  }).join('');
+  const now = o.wA || o.wB ? ` with ${o.wA > o.wB ? a : o.wB > o.wA ? b : 'the series'} ${o.wA === o.wB ? `tied ${o.wA}-${o.wB}` : `up ${Math.max(o.wA, o.wB)}-${Math.min(o.wA, o.wB)}`}` : '';
+  return `<section id="projection"><div class="sechead"><h3>Our projection: ${esc(tname(o.best.team))} in ${o.best.games}</h3><p>${esc(a)} ${pct(o.p[o.A])}, ${esc(b)} ${pct(o.p[o.B])} to win the series${esc(now)}. "${esc(tname(o.best.team))} in ${o.best.games}" is the single most likely result.</p></div>
+    <div class="panel">${oddsBar(o)}<div class="oddslab"><span>${esc(a)} ${pct(o.p[o.A])}</span><span>${esc(b)} ${pct(o.p[o.B])}</span></div>
+      <div class="tbl"><table class="rot proj"><tr><th>G</th><th>Where</th><th>${esc(a)}</th><th>${esc(b)}</th><th>${esc(ab(o.A))} win %</th></tr>${rows}</table></div>
+      <div class="outs">${[o.A, o.B].flatMap(t => short.map(r => `<div class="o"><span>${esc(ab(t))} ${label(r)}</span><b>${pct(bucket(t, ...r))}</b></div>`)).join('')}</div>
+      <p class="mapcap" style="text-align:left">* after a game number = only if needed; after a name = projected starter (most rest) until MLB announces the probable. Built only from the starting-pitcher matchup (2026 xwOBA allowed) and home field, so it doesn't know about lineups, bullpens or injuries. Updates after every game.</p></div></section>`;
 }
 
 /* ---------- series preview ---------- */
@@ -1850,12 +2009,14 @@ function previewKeys(s, A, B, rot){
   }
   const walker = [...A.sps, ...B.sps].filter(p => p.season.bb != null).sort((a, b) => b.season.bb - a.season.bb)[0];
   if(walker && walker.season.bb >= 8.5) keys.push(`${walker.name.split(' ').slice(-1)[0]} walks ${walker.season.bb.toFixed(1)}% of hitters, the most of any starter in this series. Patient at-bats can push his pitch count up early.`);
-  const tilt = {};
-  for(let g = 0; g < 4; g++){ const pa = rot[s.teams[0]][g].p, pb = rot[s.teams[1]][g].p;
+  const tilt = {}, od = seriesOdds(s);
+  for(const gm of (od ? od.games.filter(x => !x.done) : [])){ const pa = gm.sa && gm.sa.p, pb = gm.sb && gm.sb.p;
     if(!pa || !pb || pa.season.xwoba == null || pb.season.xwoba == null) continue;
-    const d = pb.season.xwoba - pa.season.xwoba; if(Math.abs(d) >= .045){ const fav = d > 0 ? s.teams[0] : s.teams[1]; (tilt[fav] = tilt[fav] || []).push({g: g+1, bad: d > 0 ? pb : pa}); } }
+    const d = pb.season.xwoba - pa.season.xwoba; if(Math.abs(d) >= .045){ const fav = d > 0 ? s.teams[0] : s.teams[1]; (tilt[fav] = tilt[fav] || []).push({g: gm.g, bad: d > 0 ? pb : pa}); } }
   for(const [fav, gs] of Object.entries(tilt)){
-    keys.push(`${gs.length > 1 ? `Games ${gs.map(x => x.g).join(' and ')}` : `Game ${gs[0].g}`} tilt${gs.length > 1 ? '' : 's'} to ${nm(fav)} on paper: ${gs.map(x => `${x.bad.name.split(' ').slice(-1)[0]} allows a ${xw(x.bad.season.xwoba)} xwOBA`).join(', ')}.`);
+    const nums = gs.map(x => x.g), list = nums.length > 1 ? nums.slice(0, -1).join(', ') + ' and ' + nums.at(-1) : nums[0];
+    const bad = [...new Map(gs.map(x => [x.bad.id, x.bad])).values()];
+    keys.push(`${nums.length > 1 ? 'Games' : 'Game'} ${list} tilt${nums.length > 1 ? '' : 's'} to ${nm(fav)} on paper: ${bad.map(x => `${x.name.split(' ').slice(-1)[0]} allows a ${xw(x.season.xwoba)} xwOBA`).join(' and ')}.`);
   }
   if(A.k != null && B.k != null && Math.abs(A.k - B.k) >= 3){ const [hi, lo] = A.k > B.k ? [A, B] : [B, A];
     keys.push(`${nm(hi.team)} starters strike out ${hi.k.toFixed(1)}% of hitters, ${(hi.k - lo.k).toFixed(1)} points more than ${nm(lo.team)}. Balls in play favor ${nm(lo.team)}.`); }
@@ -1892,8 +2053,8 @@ function showPreview(s){
         ${row('Rotation xwOBA', A.xw, B.xw, -1, xw)}${row('Rotation K%', A.k, B.k, 1, v => v.toFixed(1) + '%')}${row('Rotation BB%', A.bb, B.bb, -1, v => v.toFixed(1) + '%')}
         ${row('Innings / start (Oct)', A.ipps, B.ipps, 1, v => v.toFixed(1))}${row('Bullpen rested', A.penN ? A.fresh / A.penN : null, B.penN ? B.fresh / B.penN : null, 1, (v, i) => `${[A, B][i].fresh} of ${[A, B][i].penN}`)}
         ${row('Closer', A.closer ? A.closer.name.split(' ').slice(-1)[0] : null, B.closer ? B.closer.name.split(' ').slice(-1)[0] : null, 0, v => esc(v))}</div>
-      <div class="panel"><header><div class="vs">Projected rotation</div></header><div class="tbl"><table class="rot"><tr><th>G</th><th>${esc(tname(a))}</th><th>xwOBA</th><th>${esc(tname(b))}</th><th>xwOBA</th></tr>${rotRows}</table></div>
-        <p class="mapcap" style="text-align:left">* = projected from rest days until MLB announces the probable. 2026 season xwOBA allowed; lower is better.</p></div></div></section>
+</section>
+    ${projectionPanel(s)}
     ${keys.length ? `<section><div class="sechead"><h3>What decides it</h3><p>Read from the numbers above.</p></div><div class="panel">${keys.map(k => `<div class="key">${esc(k)}</div>`).join('')}</div></section>` : ''}`;
   document.getElementById('main').onclick = ev => { const x = ev.target.closest('.hlink[data-id]'); if(x) pick(+x.dataset.id, true); };
 }
@@ -1969,8 +2130,8 @@ async function pollLive(){
   if(box && p) box.innerHTML = liveSection(p);
   const ban = document.getElementById('liveban'); if(ban && p) ban.innerHTML = liveBanner(p);
   markLiveTiles();
-  // every 2 minutes while a game is on; otherwise wait for the next scheduled first pitch (then every 2 minutes until it goes live)
-  if(any || late) setTimeout(pollLive, 2 * 60e3);
+  // every 4 minutes while a game is on; otherwise wait for the next scheduled first pitch (then every 4 minutes until it goes live)
+  if(any || late) setTimeout(pollLive, 4 * 60e3);
   else if(nextStart < Infinity) setTimeout(pollLive, Math.min(Math.max(nextStart - Date.now(), 0) + 60e3, 2147483647));
 }
 function readLive(f){
@@ -2022,7 +2183,7 @@ function liveSection(p){
     if(res.length >= 2){ const on = res.filter(x => ['single','double','triple','home_run','walk','hit_by_pitch','intent_walk'].includes(x.ev)).length;
       calls.push([on / res.length <= .25 ? 'hit' : on / res.length <= .4 ? 'part' : 'miss', `Hitters we gave him the edge on: ${on} on base in ${res.length} trips`]); } }
   const ICON = {hit:'✓', part:'~', miss:'✕'};
-  return `<section class="livesec"><div class="panel live"><div class="livehead"><span class="lvdot">● LIVE</span><span>${esc(L.tag)}</span><span class="z">updates every 2 minutes</span></div>
+  return `<section class="livesec"><div class="panel live"><div class="livehead"><span class="lvdot">● LIVE</span><span>${esc(L.tag)}</span><span class="z">updates every 4 minutes</span></div>
     <div class="pair" style="gap:16px;margin-top:8px"><div>
       <div class="liveline"><b>${L.ip} IP</b> · ${L.r} R · ${L.h} H · ${L.k} K · ${L.bb} BB · <b>${L.np} pitches</b></div>
       ${fb && inns.length ? `<div class="eyebrow" style="margin-top:10px">${esc(plain(fb))} speed by inning${norm ? ` (normal ${norm.toFixed(1)})` : ''}</div><div class="lvelo">${bars}</div>
@@ -2226,7 +2387,10 @@ function buildProbables(){
     if(lab !== lastDay){ html += `<div class="pp-day">${lab}</div>`; lastDay = lab; }
     const csT = /CS$/.test(d.series || '');
     html += `<div class="pp-g${d.live ? ' live' : ''}${csT ? ' cs' : ''}" data-pk="${d.gamePk}"><div class="pp-m"><span>${csT ? `<span class="ppflag">${esc(d.series)}</span>G${d.game ?? ''}` : `${esc(d.series)} G${d.game ?? ''}`}</span>${d.live ? '<span class="lv">Live now</span>' : `<span>${timeOf(d)}</span>`}</div>${seriesState(d.away) ? '<div class="pp-m" style="margin:-2px 0 1px"><span></span><span class="pp-slab">Series wins</span></div>' : ''}
-      ${side(d.away, d.awayP)}${side(d.home, d.homeP)}${seriesPill(d.away, d.home)}
+      ${side(d.away, d.awayP)}${side(d.home, d.homeP)}${seriesPill(d.away, d.home)}${(() => { const sv = SERIES.find(x => x.teams.length === 2 && x.teams.includes(d.away) && x.teams.includes(d.home)), o = sv && seriesOdds(sv); if(!o) return '';
+        const gm = o.games.find(x => x.g === d.game && !x.done), fav = o.p[o.A] >= o.p[o.B] ? o.A : o.B;
+        const gfav = gm ? (gm.pA >= .5 ? o.A : o.B) : null;
+        return `<div class="pp-odds">Series: ${esc(teamOf(fav).ab)} ${pct(o.p[fav])}${gm ? ` · Game ${gm.g}: ${esc(teamOf(gfav).ab)} ${pct(gfav === o.A ? gm.pA : 1 - gm.pA)}` : ''}</div>`; })()}
       ${(() => { const sv = SERIES.find(x => x.teams.length === 2 && x.teams.includes(d.away) && x.teams.includes(d.home)); return sv ? `<button class="pp-w" data-preview="${esc(seriesKey(sv))}">Preview</button> ` : ''; })()}${(EXTRAS.watch[d.gamePk] || []).length ? `<button class="pp-w" data-panel="w:${d.gamePk}" aria-expanded="${openPanel==='w:'+d.gamePk}">What to watch</button>` : ''}</div>`;
   }
   let panel = '';
