@@ -3340,6 +3340,8 @@ function resolvePitch(now){
   g.pc++;
   const sitM = G.sit==='ANY' ? 0 : (G.sit===pt.code ? 1 : -1);
   const lookM = lookMatch(pt.x, pt.z, zi.mid), where = words(pt.x, pt.z, zi.mid);
+  // sitting on the right pitch guarantees at least a single on a ball in play; right pitch AND right spot ("locked in") at least a double
+  const locked = sitM===1 && lookM===true, minHit = sitM===1 ? (locked ? 2 : 1) : 0;
   const swung = pt.swingF != null;
   let res, banner, cls = '', detail = '', endAB = null, post = 'catch', batted = null;
   const meter = document.getElementById('gmeter');
@@ -3388,11 +3390,13 @@ function resolvePitch(now){
         const shr = la >= 18 && la <= 42 ? clamp((w - .3)*0.6, .01, .45) : 0;
         const s3 = la < 8 || la > 50 ? 0 : .02, s2 = la > 50 ? 0 : .2, s1 = 1 - shr - s3 - s2;
         const val = .89*s1 + 1.27*s2 + 1.62*s3 + 2.1*shr, ph = la > 50 ? .04 : clamp(w/val, .05, .85);
-        if(Math.random() < ph){
-          const u = Math.random(), kind = u < shr ? 'HR' : u < shr + s3 ? '3B' : u < shr + s3 + s2 ? '2B' : '1B';
+        if(Math.random() < ph || minHit){
+          const u = Math.random();
+          let kind = u < shr ? 'HR' : u < shr + s3 ? '3B' : u < shr + s3 + s2 ? '2B' : '1B';
+          if(minHit === 2 && kind === '1B') kind = '2B';
           endAB = kind; cls = 'good';
           const dist = Math.round(360 + (ev - 95)*6 + Math.random()*30);
-          res = {HR:`Home run, ${dist} ft to ${field}`, '3B':`Triple into the ${field} gap`, '2B':`Double to ${field}`, '1B': la < 8 ? `Ground ball single to ${field}` : `Line drive single to ${field}`}[kind];
+          res = {HR:`Home run, ${dist} ft to ${field}`, '3B':`Triple into the ${field} gap`, '2B':`Double to ${field}`, '1B': la < 8 ? `Ground ball single to ${field}` : la > 50 ? `Bloop single to ${field}` : `Line drive single to ${field}`}[kind];
           banner = {HR:'HOME RUN!', '3B':'TRIPLE', '2B':'DOUBLE', '1B':'SINGLE'}[kind];
           batted = {la, ev, sprayX, hr: kind==='HR', out:false};
         } else {
@@ -3424,7 +3428,7 @@ function resolvePitch(now){
   }
   G.log.push({code:pt.code, v:pt.v, x:pt.x, z:pt.z, res});
   G.banner = {text: banner, cls, t0: now};
-  setMsg(`${res}. ${pt.v.toFixed(1)} mph. ${detail}${G.sit!=='ANY' ? (sitM===1 ? ' You sat on it and picked it up early.' : ` You were sitting ${G.p.names[G.sit]}.`) : ''} ${extra}`.replace(/\s+/g,' ').trim(), cls);
+  setMsg(`${res}. ${pt.v.toFixed(1)} mph. ${detail}${G.sit!=='ANY' ? (locked ? (batted && !batted.out ? ' Locked in: you sat on that pitch in that spot, so contact means at least a double.' : ' Locked in: you sat on that pitch in that spot.') : sitM===1 ? (batted && !batted.out ? ' You sat on it, so contact means at least a single.' : ' You sat on it and picked it up early.') : ` You were sitting ${G.p.names[G.sit]}.`) : ''} ${extra}`.replace(/\s+/g,' ').trim(), cls);
   // ball animation after the pitch
   const x0 = pt.x, z0 = pt.z;
   if(post==='catch') G.post = {dur: 260, fn: u => ({x: x0, z: z0 - 0.3*u, k: 1 + 0.6*u, a: 1 - u})};
