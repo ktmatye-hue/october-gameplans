@@ -421,13 +421,30 @@ section{scroll-margin-top:56px}
 .sp-shade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(5,7,10,.45),rgba(5,7,10,0) 22%,rgba(5,7,10,0) 78%,rgba(5,7,10,.45)),radial-gradient(ellipse 18% 46% at 50% 52%,rgba(5,7,10,.55),rgba(5,7,10,0))}
 @media (max-width:560px){ .pennant.photo .pn-wave{height:140px} }
 .sp-mid b{display:block;font-family:var(--f-display);font-size:14px;letter-spacing:.3em;color:#ffb199;text-transform:uppercase}
-.sp-mid span{display:block;font-family:var(--f-display);font-size:clamp(36px,5vw,46px);font-weight:700;line-height:1;text-shadow:0 0 18px rgba(255,80,40,.7)}
+.sp-mid .sp-sc{display:block;font-family:var(--f-display);font-size:clamp(36px,5vw,46px);font-weight:700;line-height:1;text-shadow:0 0 18px rgba(255,80,40,.7)}
 .sp-mid em{display:block;font-style:normal;font-family:var(--f-display);font-size:17px;font-weight:700;letter-spacing:.18em;text-transform:uppercase}
 .pp-g.elimg{outline:2px solid #e03a2f;outline-offset:-1px;padding-top:0;overflow:hidden;animation:elpulse 1.6s ease-in-out infinite}
 @keyframes elpulse{0%,100%{box-shadow:0 0 0 0 rgba(224,58,47,.55)}50%{box-shadow:0 0 0 6px rgba(224,58,47,0)}}
 .el-rib{margin:0 -10px 6px;background:#e03a2f;color:#fff;font-family:var(--f-display);font-weight:700;font-size:13px;letter-spacing:.12em;padding:2px 10px;text-transform:uppercase}
 .pp-g.liveban .el-rib{display:none}
 .sline b.elim{background:#e03a2f;color:#fff}
+.sp-cd{display:inline-block;margin-top:5px;font-family:var(--f-data);font-size:12px;background:rgba(224,58,47,.85);color:#fff;border-radius:999px;padding:1px 10px}
+.series.wta .wta-hd{background:linear-gradient(90deg,#3a0f0c,#1a0605);border:1px solid #e03a2f;border-radius:6px;padding:6px 9px;font-family:var(--f-display);font-weight:700;letter-spacing:.1em;font-size:12.5px;color:#fff;text-transform:uppercase;margin-bottom:4px}
+.series.wta .wta-hd small{display:block;font-family:var(--f-body);font-weight:500;letter-spacing:0;font-size:11.5px;color:#ffb3aa;text-transform:none;margin-top:1px}
+.r5{font-size:9.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;border-radius:999px;padding:1px 6px;margin-left:6px;vertical-align:1px;font-family:var(--f-body)}
+.r5.sp,.r5b.sp{background:#e03a2f;color:#fff}.r5.ok,.r5b.ok,.ah-t.ok{background:var(--good-bg);color:var(--good)}
+.r5.tired,.r5b.tired,.ah-t.tired{background:var(--gold-bg);color:var(--gold)}.r5.out,.r5b.out,.ah-t.out{background:color-mix(in srgb, var(--hot) 15%, var(--surface));color:var(--hot)}
+.sline b.r5b{font-size:15px}
+.wta .rd-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px}
+.rd-g{border:1px solid var(--line);border-left:4px solid var(--c, var(--line));border-radius:8px;padding:8px 10px;font-size:12.5px;color:var(--ink-2)}
+.rd-g b{display:block;font-family:var(--f-display);font-size:13px;letter-spacing:.08em;color:var(--muted);text-transform:uppercase}
+.rd-s{font-family:var(--f-data);font-size:14px;color:var(--ink);margin:3px 0}
+.rd-g.next{border:2px dashed #e03a2f;text-align:center}.rd-g.next .rd-s{font-family:var(--f-display);font-size:20px;font-weight:700;color:#e8564a;text-transform:uppercase}
+.rd-note{font-size:13.5px;color:var(--ink-2);margin:10px 0 0}
+.ah-wrap{margin-top:12px}.ah-wrap summary{cursor:pointer;font-family:var(--f-display);font-weight:700;font-size:17px;text-transform:uppercase;letter-spacing:.03em;padding:6px 0}
+.ah h4{margin:0 0 6px;font-family:var(--f-display);font-size:18px;text-transform:uppercase}
+.ah-arm{display:flex;justify-content:space-between;align-items:center;font-size:13.5px;padding:4px 0;border-bottom:1px solid var(--line-2)}
+.ah-t{font-size:10.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;border-radius:999px;padding:1px 8px}
 @media (prefers-reduced-motion:reduce){ .pp-g.elimg{animation:none} }
 .pn-wave{position:relative;height:130px;border-radius:14px;overflow:hidden;background:linear-gradient(135deg,#d6d7d8 0%,#b4b7bb 35%,#cfd0d1 52%,#979ba1 78%,#c3c5c7 100%)}
 .pn-wave svg{position:absolute;inset:0;width:100%;height:100%}
@@ -521,7 +538,7 @@ const DATA = [{"id":519242,"name":"Chris Sale","team":"Atlanta Braves","role":"S
       for(let i=0;i<20;i++){ const row = []; for(let j=0;j<20;j++) row.push(Math.round(parseInt(s[i*20+j],36)/35*99)); g.push(row); } b.heat[c] = g; }
     for(const c in b.zones) for(const z in b.zones[c]){ const a = b.zones[c][z]; if(Array.isArray(a)) b.zones[c][z] = Object.fromEntries(ZK.map((k,i)=>[k,a[i]])); } } })();
 const META = {
- "generated": "2026-10-08T20:49-07:00",
+ "generated": "2026-10-08T22:53-07:00",
  "series": [
   {
    "name": "NLCS \u00b7 Dodgers vs Brewers",
@@ -534,44 +551,65 @@ const META = {
     {
      "g": 1,
      "home": "Milwaukee Brewers",
+     "away": "Los Angeles Dodgers",
      "time": "2026-10-12T00:00:00Z",
-     "won": null
+     "won": null,
+     "hr": null,
+     "ar": null
     },
     {
      "g": 2,
      "home": "Milwaukee Brewers",
+     "away": "Los Angeles Dodgers",
      "time": "2026-10-12T21:00:00Z",
-     "won": null
+     "won": null,
+     "hr": null,
+     "ar": null
     },
     {
      "g": 3,
      "home": "Los Angeles Dodgers",
+     "away": "Milwaukee Brewers",
      "time": "2026-10-15T00:00:00Z",
-     "won": null
+     "won": null,
+     "hr": null,
+     "ar": null
     },
     {
      "g": 4,
      "home": "Los Angeles Dodgers",
+     "away": "Milwaukee Brewers",
      "time": "2026-10-16T01:00:00Z",
-     "won": null
+     "won": null,
+     "hr": null,
+     "ar": null
     },
     {
      "g": 5,
      "home": "Los Angeles Dodgers",
+     "away": "Milwaukee Brewers",
      "time": "2026-10-17T01:00:00Z",
-     "won": null
+     "won": null,
+     "hr": null,
+     "ar": null
     },
     {
      "g": 6,
      "home": "Milwaukee Brewers",
+     "away": "Los Angeles Dodgers",
      "time": "2026-10-19T00:00:00Z",
-     "won": null
+     "won": null,
+     "hr": null,
+     "ar": null
     },
     {
      "g": 7,
      "home": "Milwaukee Brewers",
+     "away": "Los Angeles Dodgers",
      "time": "2026-10-20T00:00:00Z",
-     "won": null
+     "won": null,
+     "hr": null,
+     "ar": null
     }
    ]
   },
@@ -586,32 +624,47 @@ const META = {
     {
      "g": 1,
      "home": "Cleveland Guardians",
+     "away": "Chicago White Sox",
      "time": "2026-10-03T17:00:00Z",
-     "won": "Chicago White Sox"
+     "won": "Chicago White Sox",
+     "hr": 0,
+     "ar": 3
     },
     {
      "g": 2,
      "home": "Cleveland Guardians",
+     "away": "Chicago White Sox",
      "time": "2026-10-05T21:00:00Z",
-     "won": "Chicago White Sox"
+     "won": "Chicago White Sox",
+     "hr": 3,
+     "ar": 4
     },
     {
      "g": 3,
      "home": "Chicago White Sox",
+     "away": "Cleveland Guardians",
      "time": "2026-10-07T20:00:00Z",
-     "won": "Cleveland Guardians"
+     "won": "Cleveland Guardians",
+     "hr": 3,
+     "ar": 9
     },
     {
      "g": 4,
      "home": "Chicago White Sox",
+     "away": "Cleveland Guardians",
      "time": "2026-10-09T00:00:00Z",
-     "won": "Cleveland Guardians"
+     "won": "Cleveland Guardians",
+     "hr": 5,
+     "ar": 9
     },
     {
      "g": 5,
      "home": "Cleveland Guardians",
+     "away": "Chicago White Sox",
      "time": "2026-10-11T00:00:00Z",
-     "won": null
+     "won": null,
+     "hr": null,
+     "ar": null
     }
    ]
   },
@@ -796,161 +849,302 @@ const META = {
     }
    ]
   },
-  "Milwaukee Brewers": {
-   "ref": "2026-10-11",
+  "Tampa Bay Rays": {
+   "ref": "2026-10-08",
    "arms": [
     {
-     "id": 656730,
-     "name": "Trevor Megill",
+     "id": 641329,
+     "name": "Bryan Baker",
+     "closer": true,
+     "p": [
+      9,
+      0,
+      17
+     ],
+     "days": [
+      "2026-10-05",
+      "2026-10-06",
+      "2026-10-07"
+     ],
+     "status": "tired",
+     "rest": 0
+    },
+    {
+     "id": 642121,
+     "name": "Cole Sulser",
+     "closer": false,
+     "p": [
+      0,
+      0,
+      0
+     ],
+     "days": [
+      "2026-10-05",
+      "2026-10-06",
+      "2026-10-07"
+     ],
+     "status": "fresh",
+     "rest": null
+    },
+    {
+     "id": 664076,
+     "name": "Garrett Cleavinger",
+     "closer": false,
+     "p": [
+      0,
+      0,
+      0
+     ],
+     "days": [
+      "2026-10-05",
+      "2026-10-06",
+      "2026-10-07"
+     ],
+     "status": "fresh",
+     "rest": null
+    },
+    {
+     "id": 571927,
+     "name": "Steven Matz",
+     "closer": false,
+     "p": [
+      0,
+      0,
+      0
+     ],
+     "days": [
+      "2026-10-05",
+      "2026-10-06",
+      "2026-10-07"
+     ],
+     "status": "fresh",
+     "rest": null
+    },
+    {
+     "id": 669330,
+     "name": "Tyler Wells",
+     "closer": false,
+     "p": [
+      0,
+      0,
+      0
+     ],
+     "days": [
+      "2026-10-05",
+      "2026-10-06",
+      "2026-10-07"
+     ],
+     "status": "fresh",
+     "rest": null
+    },
+    {
+     "id": 592155,
+     "name": "Cam Booser",
+     "closer": false,
+     "p": [
+      8,
+      0,
+      8
+     ],
+     "days": [
+      "2026-10-05",
+      "2026-10-06",
+      "2026-10-07"
+     ],
+     "status": "tired",
+     "rest": 0
+    },
+    {
+     "id": 687330,
+     "name": "Kevin Kelly",
+     "closer": false,
+     "p": [
+      0,
+      0,
+      5
+     ],
+     "days": [
+      "2026-10-05",
+      "2026-10-06",
+      "2026-10-07"
+     ],
+     "status": "tired",
+     "rest": 0
+    },
+    {
+     "id": 643377,
+     "name": "Griffin Jax",
+     "closer": false,
+     "p": [
+      0,
+      0,
+      32
+     ],
+     "days": [
+      "2026-10-05",
+      "2026-10-06",
+      "2026-10-07"
+     ],
+     "status": "out",
+     "rest": 0
+    },
+    {
+     "id": 693855,
+     "name": "Ian Seymour",
+     "closer": false,
+     "p": [
+      41,
+      0,
+      23
+     ],
+     "days": [
+      "2026-10-05",
+      "2026-10-06",
+      "2026-10-07"
+     ],
+     "status": "out",
+     "rest": 0
+    }
+   ]
+  },
+  "Chicago White Sox": {
+   "ref": "2026-10-10",
+   "arms": [
+    {
+     "id": 691799,
+     "name": "Grant Taylor",
      "closer": true,
      "p": [
       0,
+      18,
+      0
+     ],
+     "days": [
+      "2026-10-07",
+      "2026-10-08",
+      "2026-10-09"
+     ],
+     "status": "fresh",
+     "rest": 1
+    },
+    {
+     "id": 689818,
+     "name": "David Sandlin",
+     "closer": false,
+     "p": [
+      22,
       0,
       0
      ],
      "days": [
+      "2026-10-07",
       "2026-10-08",
-      "2026-10-09",
-      "2026-10-10"
+      "2026-10-09"
      ],
      "status": "fresh",
-     "rest": 3
+     "rest": 2
     },
     {
-     "id": 694477,
-     "name": "Chad Patrick",
+     "id": 663436,
+     "name": "Davis Martin",
+     "closer": false,
+     "p": [
+      31,
+      0,
+      0
+     ],
+     "days": [
+      "2026-10-07",
+      "2026-10-08",
+      "2026-10-09"
+     ],
+     "status": "fresh",
+     "rest": 2
+    },
+    {
+     "id": 702273,
+     "name": "Noah Schultz",
+     "closer": false,
+     "p": [
+      45,
+      0,
+      0
+     ],
+     "days": [
+      "2026-10-07",
+      "2026-10-08",
+      "2026-10-09"
+     ],
+     "status": "fresh",
+     "rest": 2
+    },
+    {
+     "id": 663855,
+     "name": "Jordan Hicks",
      "closer": false,
      "p": [
       0,
-      0,
+      14,
       0
      ],
      "days": [
+      "2026-10-07",
       "2026-10-08",
-      "2026-10-09",
-      "2026-10-10"
+      "2026-10-09"
      ],
      "status": "fresh",
-     "rest": null
+     "rest": 1
     },
     {
-     "id": 690986,
-     "name": "Kyle Harrison",
+     "id": 663542,
+     "name": "Bryan Hudson",
+     "closer": false,
+     "p": [
+      16,
+      16,
+      0
+     ],
+     "days": [
+      "2026-10-07",
+      "2026-10-08",
+      "2026-10-09"
+     ],
+     "status": "tired",
+     "rest": 1
+    },
+    {
+     "id": 699823,
+     "name": "Tyler Davis",
+     "closer": false,
+     "p": [
+      21,
+      27,
+      0
+     ],
+     "days": [
+      "2026-10-07",
+      "2026-10-08",
+      "2026-10-09"
+     ],
+     "status": "tired",
+     "rest": 1
+    },
+    {
+     "id": 607200,
+     "name": "Erick Fedde",
      "closer": false,
      "p": [
       0,
-      0,
+      61,
       0
      ],
      "days": [
+      "2026-10-07",
       "2026-10-08",
-      "2026-10-09",
-      "2026-10-10"
+      "2026-10-09"
      ],
-     "status": "fresh",
-     "rest": null
-    },
-    {
-     "id": 675660,
-     "name": "Shane Drohan",
-     "closer": false,
-     "p": [
-      0,
-      0,
-      0
-     ],
-     "days": [
-      "2026-10-08",
-      "2026-10-09",
-      "2026-10-10"
-     ],
-     "status": "fresh",
-     "rest": null
-    },
-    {
-     "id": 622608,
-     "name": "Antonio Senzatela",
-     "closer": false,
-     "p": [
-      0,
-      0,
-      0
-     ],
-     "days": [
-      "2026-10-08",
-      "2026-10-09",
-      "2026-10-10"
-     ],
-     "status": "fresh",
-     "rest": 4
-    },
-    {
-     "id": 669084,
-     "name": "DL Hall",
-     "closer": false,
-     "p": [
-      0,
-      0,
-      0
-     ],
-     "days": [
-      "2026-10-08",
-      "2026-10-09",
-      "2026-10-10"
-     ],
-     "status": "fresh",
-     "rest": 4
-    },
-    {
-     "id": 668941,
-     "name": "JoJo Romero",
-     "closer": false,
-     "p": [
-      0,
-      0,
-      0
-     ],
-     "days": [
-      "2026-10-08",
-      "2026-10-09",
-      "2026-10-10"
-     ],
-     "status": "fresh",
-     "rest": 4
-    },
-    {
-     "id": 676879,
-     "name": "Aaron Ashby",
-     "closer": false,
-     "p": [
-      0,
-      0,
-      0
-     ],
-     "days": [
-      "2026-10-08",
-      "2026-10-09",
-      "2026-10-10"
-     ],
-     "status": "fresh",
-     "rest": 3
-    },
-    {
-     "id": 682842,
-     "name": "Abner Uribe",
-     "closer": false,
-     "p": [
-      0,
-      0,
-      0
-     ],
-     "days": [
-      "2026-10-08",
-      "2026-10-09",
-      "2026-10-10"
-     ],
-     "status": "fresh",
-     "rest": 3
+     "status": "out",
+     "rest": 1
     }
    ]
   },
@@ -1112,187 +1306,46 @@ const META = {
     }
    ]
   },
-  "Chicago White Sox": {
-   "ref": "2026-10-10",
+  "Milwaukee Brewers": {
+   "ref": "2026-10-11",
    "arms": [
     {
-     "id": 691799,
-     "name": "Grant Taylor",
+     "id": 656730,
+     "name": "Trevor Megill",
      "closer": true,
      "p": [
       0,
-      18,
+      0,
       0
      ],
      "days": [
-      "2026-10-07",
       "2026-10-08",
-      "2026-10-09"
+      "2026-10-09",
+      "2026-10-10"
      ],
      "status": "fresh",
-     "rest": 1
+     "rest": 3
     },
     {
-     "id": 689818,
-     "name": "David Sandlin",
+     "id": 694477,
+     "name": "Chad Patrick",
      "closer": false,
      "p": [
-      22,
+      0,
       0,
       0
      ],
      "days": [
-      "2026-10-07",
       "2026-10-08",
-      "2026-10-09"
-     ],
-     "status": "fresh",
-     "rest": 2
-    },
-    {
-     "id": 663436,
-     "name": "Davis Martin",
-     "closer": false,
-     "p": [
-      31,
-      0,
-      0
-     ],
-     "days": [
-      "2026-10-07",
-      "2026-10-08",
-      "2026-10-09"
-     ],
-     "status": "fresh",
-     "rest": 2
-    },
-    {
-     "id": 702273,
-     "name": "Noah Schultz",
-     "closer": false,
-     "p": [
-      45,
-      0,
-      0
-     ],
-     "days": [
-      "2026-10-07",
-      "2026-10-08",
-      "2026-10-09"
-     ],
-     "status": "fresh",
-     "rest": 2
-    },
-    {
-     "id": 663855,
-     "name": "Jordan Hicks",
-     "closer": false,
-     "p": [
-      0,
-      14,
-      0
-     ],
-     "days": [
-      "2026-10-07",
-      "2026-10-08",
-      "2026-10-09"
-     ],
-     "status": "fresh",
-     "rest": 1
-    },
-    {
-     "id": 663542,
-     "name": "Bryan Hudson",
-     "closer": false,
-     "p": [
-      16,
-      16,
-      0
-     ],
-     "days": [
-      "2026-10-07",
-      "2026-10-08",
-      "2026-10-09"
-     ],
-     "status": "tired",
-     "rest": 1
-    },
-    {
-     "id": 699823,
-     "name": "Tyler Davis",
-     "closer": false,
-     "p": [
-      21,
-      27,
-      0
-     ],
-     "days": [
-      "2026-10-07",
-      "2026-10-08",
-      "2026-10-09"
-     ],
-     "status": "tired",
-     "rest": 1
-    },
-    {
-     "id": 607200,
-     "name": "Erick Fedde",
-     "closer": false,
-     "p": [
-      0,
-      61,
-      0
-     ],
-     "days": [
-      "2026-10-07",
-      "2026-10-08",
-      "2026-10-09"
-     ],
-     "status": "out",
-     "rest": 1
-    }
-   ]
-  },
-  "Tampa Bay Rays": {
-   "ref": "2026-10-08",
-   "arms": [
-    {
-     "id": 641329,
-     "name": "Bryan Baker",
-     "closer": true,
-     "p": [
-      9,
-      0,
-      17
-     ],
-     "days": [
-      "2026-10-05",
-      "2026-10-06",
-      "2026-10-07"
-     ],
-     "status": "tired",
-     "rest": 0
-    },
-    {
-     "id": 642121,
-     "name": "Cole Sulser",
-     "closer": false,
-     "p": [
-      0,
-      0,
-      0
-     ],
-     "days": [
-      "2026-10-05",
-      "2026-10-06",
-      "2026-10-07"
+      "2026-10-09",
+      "2026-10-10"
      ],
      "status": "fresh",
      "rest": null
     },
     {
-     "id": 664076,
-     "name": "Garrett Cleavinger",
+     "id": 690986,
+     "name": "Kyle Harrison",
      "closer": false,
      "p": [
       0,
@@ -1300,16 +1353,16 @@ const META = {
       0
      ],
      "days": [
-      "2026-10-05",
-      "2026-10-06",
-      "2026-10-07"
+      "2026-10-08",
+      "2026-10-09",
+      "2026-10-10"
      ],
      "status": "fresh",
      "rest": null
     },
     {
-     "id": 571927,
-     "name": "Steven Matz",
+     "id": 675660,
+     "name": "Shane Drohan",
      "closer": false,
      "p": [
       0,
@@ -1317,16 +1370,16 @@ const META = {
       0
      ],
      "days": [
-      "2026-10-05",
-      "2026-10-06",
-      "2026-10-07"
+      "2026-10-08",
+      "2026-10-09",
+      "2026-10-10"
      ],
      "status": "fresh",
      "rest": null
     },
     {
-     "id": 669330,
-     "name": "Tyler Wells",
+     "id": 622608,
+     "name": "Antonio Senzatela",
      "closer": false,
      "p": [
       0,
@@ -1334,104 +1387,104 @@ const META = {
       0
      ],
      "days": [
-      "2026-10-05",
-      "2026-10-06",
-      "2026-10-07"
+      "2026-10-08",
+      "2026-10-09",
+      "2026-10-10"
      ],
      "status": "fresh",
-     "rest": null
+     "rest": 4
     },
     {
-     "id": 592155,
-     "name": "Cam Booser",
-     "closer": false,
-     "p": [
-      8,
-      0,
-      8
-     ],
-     "days": [
-      "2026-10-05",
-      "2026-10-06",
-      "2026-10-07"
-     ],
-     "status": "tired",
-     "rest": 0
-    },
-    {
-     "id": 687330,
-     "name": "Kevin Kelly",
+     "id": 669084,
+     "name": "DL Hall",
      "closer": false,
      "p": [
       0,
       0,
-      5
+      0
      ],
      "days": [
-      "2026-10-05",
-      "2026-10-06",
-      "2026-10-07"
+      "2026-10-08",
+      "2026-10-09",
+      "2026-10-10"
      ],
-     "status": "tired",
-     "rest": 0
+     "status": "fresh",
+     "rest": 4
     },
     {
-     "id": 643377,
-     "name": "Griffin Jax",
+     "id": 668941,
+     "name": "JoJo Romero",
      "closer": false,
      "p": [
       0,
       0,
-      32
+      0
      ],
      "days": [
-      "2026-10-05",
-      "2026-10-06",
-      "2026-10-07"
+      "2026-10-08",
+      "2026-10-09",
+      "2026-10-10"
      ],
-     "status": "out",
-     "rest": 0
+     "status": "fresh",
+     "rest": 4
     },
     {
-     "id": 693855,
-     "name": "Ian Seymour",
+     "id": 676879,
+     "name": "Aaron Ashby",
      "closer": false,
      "p": [
-      41,
       0,
-      23
+      0,
+      0
      ],
      "days": [
-      "2026-10-05",
-      "2026-10-06",
-      "2026-10-07"
+      "2026-10-08",
+      "2026-10-09",
+      "2026-10-10"
      ],
-     "status": "out",
-     "rest": 0
+     "status": "fresh",
+     "rest": 3
+    },
+    {
+     "id": 682842,
+     "name": "Abner Uribe",
+     "closer": false,
+     "p": [
+      0,
+      0,
+      0
+     ],
+     "days": [
+      "2026-10-08",
+      "2026-10-09",
+      "2026-10-10"
+     ],
+     "status": "fresh",
+     "rest": 3
     }
    ]
   }
  },
  "teamIds": {
   "Los Angeles Dodgers": 119,
-  "Milwaukee Brewers": 158,
-  "Cleveland Guardians": 114,
+  "Tampa Bay Rays": 139,
   "Chicago White Sox": 145,
-  "Tampa Bay Rays": 139
+  "Cleveland Guardians": 114,
+  "Milwaukee Brewers": 158
  },
  "abbr": {
-  "Los Angeles Dodgers": "LAD",
-  "Atlanta Braves": "ATL",
-  "Milwaukee Brewers": "MIL",
   "Philadelphia Phillies": "PHI",
+  "Los Angeles Dodgers": "LAD",
+  "Tampa Bay Rays": "TB",
+  "Boston Red Sox": "BOS",
+  "Atlanta Braves": "ATL",
   "Chicago Cubs": "CHC",
+  "Chicago White Sox": "CWS",
+  "Cleveland Guardians": "CLE",
+  "New York Yankees": "NYY",
   "Houston Astros": "HOU",
   "San Diego Padres": "SD",
-  "New York Yankees": "NYY",
-  "Cleveland Guardians": "CLE",
-  "Boston Red Sox": "BOS",
-  "Chicago White Sox": "CWS",
-  "Tampa Bay Rays": "TB"
+  "Milwaukee Brewers": "MIL"
  },
  "record": {
   "Los Angeles Dodgers": {
@@ -1448,33 +1501,11 @@ const META = {
    "round": "NLCS",
    "opp": "Milwaukee Brewers"
   },
-  "Milwaukee Brewers": {
+  "Tampa Bay Rays": {
    "post": [
     3,
-    1
-   ],
-   "series": [
-    0,
     0
-   ],
-   "bestOf": 7,
-   "need": 4,
-   "round": "NLCS",
-   "opp": "Los Angeles Dodgers"
-  },
-  "Cleveland Guardians": {
-   "post": [
-    2,
-    2
-   ],
-   "series": [
-    2,
-    2
-   ],
-   "bestOf": 5,
-   "need": 3,
-   "round": "ALDS",
-   "opp": "Chicago White Sox"
+   ]
   },
   "Chicago White Sox": {
    "post": [
@@ -1490,11 +1521,33 @@ const META = {
    "round": "ALDS",
    "opp": "Cleveland Guardians"
   },
-  "Tampa Bay Rays": {
+  "Cleveland Guardians": {
+   "post": [
+    2,
+    2
+   ],
+   "series": [
+    2,
+    2
+   ],
+   "bestOf": 5,
+   "need": 3,
+   "round": "ALDS",
+   "opp": "Chicago White Sox"
+  },
+  "Milwaukee Brewers": {
    "post": [
     3,
+    1
+   ],
+   "series": [
+    0,
     0
-   ]
+   ],
+   "bestOf": 7,
+   "need": 4,
+   "round": "NLCS",
+   "opp": "Los Angeles Dodgers"
   }
  },
  "eliminated": [
@@ -1682,7 +1735,9 @@ function seriesLine(p){
   const eg = elimOfTeam(p.team);
   if(eg){ const nxt = NEXT_ROUND[s.rnd], opp2 = SERIES.find(x => x.name.includes('Waiting') && x.teams.length === 1);
     const tail = eg.both ? `Series tied ${s.w}-${s.l}. The winner ${nxt && nxt !== 'title' ? `goes to the ${nxt}${opp2 && nxt.endsWith('CS') ? ` to face the ${tname(opp2.teams[0])}` : ''}` : 'wins it all'}.` : (eg.facing === p.team ? `Down ${s.w}-${s.l}: one more loss ends the season.` : `Up ${s.w}-${s.l}: one more win clinches.`);
-    return `<div class="sline"><b class="elim">Game ${eg.game} · ${eg.both ? 'Winner take all' : eg.facing === p.team ? 'Must win' : 'Can clinch'}</b><span>vs ${esc(tname(r.opp))}. ${esc(tail)}${r.post ? ` ${esc(tname(p.team))} are ${r.post[0]}-${r.post[1]} this postseason.` : ''}</span></div>`; }
+    const rr = role5(p, eg);
+    return `<div class="sline"><b class="elim">Game ${eg.game} · ${eg.both ? 'Winner take all' : eg.facing === p.team ? 'Must win' : 'Can clinch'}</b><span>vs ${esc(tname(r.opp))}. ${esc(tail)}${r.post ? ` ${esc(tname(p.team))} are ${r.post[0]}-${r.post[1]} this postseason.` : ''}</span></div>
+      ${rr ? `<div class="sline"><b class="r5b ${rr.cls}">${esc(rr.label)}</b><span>${esc(rr.why)}</span></div>` : ''}`; }
   return `<div class="sline"><b class="${s.cls}${s.cls === 'tied' && csSeriesOf(p.team) ? ' plat' : ''}">${s.word} ${s.w}-${s.l}</b><span>vs ${esc(opp)} in the ${esc(s.rnd)}${s.note ? ` · ${s.note}` : ''}${pr}</span></div>`;
 }
 function seriesPill(away, home){
@@ -1759,20 +1814,23 @@ function buildNav(){
   const nav = document.getElementById('nav'), sel = document.getElementById('mpick');
   let h = '', o = '';
   for(const s of SERIES){
-    h += `<div class="series${isCS(s) ? ' cs' : ''}"><span class="eyebrow">${isCS(s) ? '⚑ ' : ''}${s.name}</span>${s.teams.length === 2 ? `<button class="whybtn prev" data-preview="${esc(seriesKey(s))}">Series preview →</button>` : ''}`;
+    const eS = elimInfo(s), gS = eS && nextGameOf(eS);
+    h += `<div class="series${isCS(s) ? ' cs' : ''}${eS ? ' wta' : ''}">${eS ? `<div class="wta-hd">⚠ ${esc(s.name.split(' · ')[0])} · Game ${eS.game} · ${eS.both ? 'Winner take all' : `${esc(tname(eS.facing))} must win`}<small>${gS ? `${new Date(gS.time).toLocaleDateString(undefined, {weekday: 'short'})} in ${esc(gS.home.slice(0, gS.home.length - tname(gS.home).length).trim())} · ` : ''}${eS.both ? `series tied ${eS.sa.w}-${eS.sb.w}` : `${esc(tname(eS.facing))} down ${Math.min(eS.sa.w, eS.sb.w)}-${Math.max(eS.sa.w, eS.sb.w)}`}</small></div>` : `<span class="eyebrow">${isCS(s) ? '⚑ ' : ''}${s.name}</span>`}${s.teams.length === 2 ? `<button class="whybtn prev" data-preview="${esc(seriesKey(s))}">Series preview →</button>` : ''}`;
     o += `<optgroup label="${s.name}">`;
     for(const t of s.teams){
       const sps = DATA.filter(p => p.team===t && p.role!=='RP').sort((a,b)=>a.starts[0].date.localeCompare(b.starts[0].date));
       const rps = DATA.filter(p => p.team===t && p.role==='RP').sort(penOrder);
       h += `<div class="team"><span><span class="tsw" style="background:${teamOf(t).p}"></span>${t}</span>${seriesDots(t)}</div>`;
       for(const p of sps){
-        h += `<button class="pbtn" data-id="${p.id}"><span>${esc(p.name)}</span><small>${p.throws}HP</small></button>`;
+        const r5 = eS && role5(p, eS);
+        h += `<button class="pbtn" data-id="${p.id}"><span>${esc(p.name)}${r5 && (r5.cls === 'sp') ? `<span class="r5 ${r5.cls}">${esc(r5.tag)}</span>` : ''}</span><small>${p.throws}HP</small></button>`;
         o += `<option value="${p.id}">${esc(p.name)} (${tname(t)}, ${p.throws}HP)</option>`;
       }
       if(rps.length){
         h += `<div class="pen">Bullpen</div>`;
         for(const p of rps){
-          h += `<button class="pbtn" data-id="${p.id}"><span>${p.avail ? `<span class="adot ${p.avail}" title="${AV[p.avail]}"></span>` : ''}${esc(p.name)}</span><small>${p.status ? 'Away · ' : ''}${p.closer ? 'CL · ' : ''}${p.throws}HP</small></button>`;
+          const r5b = eS && role5(p, eS);
+          h += `<button class="pbtn" data-id="${p.id}"><span>${p.avail ? `<span class="adot ${p.avail}" title="${AV[p.avail]}"></span>` : ''}${esc(p.name)}${r5b ? `<span class="r5 ${r5b.cls}">${esc(r5b.tag)}</span>` : ''}</span><small>${p.status ? 'Away · ' : ''}${p.closer ? 'CL · ' : ''}${p.throws}HP</small></button>`;
           o += `<option value="${p.id}">${esc(p.name)} (${tname(t)}, ${p.closer ? 'closer' : 'reliever'}, ${p.throws}HP)</option>`;
         }
       }
@@ -2112,9 +2170,11 @@ function showPreview(s){
         ${row('Innings / start (Oct)', A.ipps, B.ipps, 1, v => v.toFixed(1))}${row('Bullpen rested', A.penN ? A.fresh / A.penN : null, B.penN ? B.fresh / B.penN : null, 1, (v, i) => `${[A, B][i].fresh} of ${[A, B][i].penN}`)}
         ${row('Closer', A.closer ? A.closer.name.split(' ').slice(-1)[0] : null, B.closer ? B.closer.name.split(' ').slice(-1)[0] : null, 0, v => esc(v))}</div>
 </section>
+    ${elimInfo(s) ? elimPanels(elimInfo(s), true) : ''}
     ${projectionPanel(s)}
     ${keys.length ? `<section><div class="sechead"><h3>What decides it</h3><p>Read from the numbers above.</p></div><div class="panel">${keys.map(k => `<div class="key">${esc(k)}</div>`).join('')}</div></section>` : ''}`;
   document.getElementById('main').onclick = ev => { const x = ev.target.closest('.hlink[data-id]'); if(x) pick(+x.dataset.id, true); };
+  tickCountdowns();
 }
 
 /* ---------- jump bar for the scouting report ---------- */
@@ -2641,9 +2701,78 @@ function spotlight(e, opts){
   const img = ART['elim:' + e.a + '|' + e.b], imgR = ART['elim:' + e.b + '|' + e.a];
   const bg = img || imgR ? `<div class="sp-img${imgR && !img ? ' flip' : ''}" style="background-image:url('${img || imgR}')"></div><div class="sp-shade"></div>` : svg;
   return `<div class="pennant spot${img || imgR ? ' photo' : ''}"><div class="pn-wave">${bg}<div class="pn-row">${side(e.a, 'a')}
-    <div class="sp-mid"><b>${esc(rnd_)} · Game ${e.game}</b><span>${e.sa.w} – ${e.sb.w}</span><em>${e.both ? 'Win or go home' : esc(call)}</em></div>
+    <div class="sp-mid"><b>${esc(rnd_)} · Game ${e.game}</b><span class="sp-sc">${e.sa.w} – ${e.sb.w}</span><em>${e.both ? 'Win or go home' : esc(call)}</em>${(() => { const g = e.s.games.find(x => x.g === e.game); return g && new Date(g.time) > Date.now() ? `<span class="sp-cd" data-firstpitch="${g.time}"></span>` : ''; })()}</div>
     ${side(e.b, 'b')}</div></div>${opts && opts.link ? `<button class="pn-link" data-preview="${esc(seriesKey(e.s))}">Series preview →</button>` : ''}</div>`;
 }
+
+/* ---------- winner-take-all extras: game roles, road to the deciding game, who's available, countdown ---------- */
+const DAY = 864e5;
+function nextGameOf(e){ return e.s.games.find(g => g.g === e.game); }
+function role5(p, e){
+  const gm = nextGameOf(e), od = seriesOdds(e.s), g = od && od.games.find(x => x.g === e.game);
+  const st = g ? (p.team === e.a ? g.sa : g.sb) : null, N = e.game;
+  if(st && st.p && st.p.id === p.id) return {cls: 'sp', tag: `G${N} start${st.sure ? '' : '*'}`, label: st.sure ? `Game ${N}: starter` : `Game ${N}: projected starter`,
+    why: st.sure ? `MLB has him starting Game ${N}.` : `He's next in line on rest. MLB hasn't announced the Game ${N} starters yet.`};
+  const arm = ((META.bullpen[p.team] || {}).arms || []).find(a => a.id === p.id);
+  if(arm){
+    const thrown = arm.days.map((d, i) => [d, arm.p[i]]).filter(([, n]) => n > 0);
+    const how = thrown.length ? `He threw ${thrown.map(([, n]) => n).join(thrown.length > 2 ? ', ' : ' and ')} pitches on ${thrown.map(([d]) => mon(d)).join(thrown.length > 2 ? ', ' : ' and ')}.` : 'He hasn’t pitched in the last three days.';
+    if(arm.status === 'out'){
+      const alts = ((META.bullpen[p.team] || {}).arms || []).filter(a => a.status === 'fresh' && a.id !== p.id).slice(0, 2).map(a => a.name.split(' ').slice(-1)[0]);
+      return {cls: 'out', tag: 'Likely out', label: `Game ${N}: likely out`, why: `${how} ${alts.length ? `If he can't go, watch ${alts.join(' or ')} late.` : ''}`};
+    }
+    if(arm.status === 'tired') return {cls: 'tired', tag: 'Tired', label: `Game ${N}: tired`, why: `${how} He can probably go, but maybe not for long.`};
+    return {cls: 'ok', tag: 'Ready', label: `Game ${N}: ready`, why: how};
+  }
+  if(p.role !== 'RP' && gm){
+    const last = (p.starts.filter(s => s.line && !['probable','in progress'].includes(s.line)).at(-1) || {}).date;
+    const rest = last ? Math.round((new Date(gm.time) - new Date(last + 'T12:00:00')) / DAY) : 9;
+    return rest <= 2 ? {cls: 'tired', tag: 'Unlikely', label: `Game ${N}: unlikely to pitch`, why: `He started on ${mon(last)}, too recently to go again.`}
+                     : {cls: 'ok', tag: 'Relief', label: `Game ${N}: could pitch in relief`, why: `${last ? `Last started on ${mon(last)}. ` : ''}In a must-win game, every starter not starting is an option out of the pen.`};
+  }
+  return null;
+}
+function roadStrip(e){
+  const ab = t => teamOf(t).ab;
+  const cards = e.s.games.filter(g => g.g <= e.game).map(g => g.won
+    ? `<div class="rd-g" style="--c:${beamColor(g.won)}"><b>Game ${g.g} · at ${esc(ab(g.home))}</b><div class="rd-s">${esc(ab(g.away))} ${g.ar}, ${esc(ab(g.home))} ${g.hr}</div><span>${esc(tname(g.won))} win</span></div>`
+    : `<div class="rd-g next"><b>Game ${g.g} · at ${esc(ab(g.home))}</b><div class="rd-s">${new Date(g.time).toLocaleDateString(undefined, {weekday: 'short'})}</div><span>${e.both ? 'Winner take all' : `${esc(tname(e.facing))} must win`}</span></div>`).join('');
+  const done = e.s.games.filter(g => g.won), facts = [];
+  if(done.length >= 3 && done.every(g => g.won === g.away)) facts.push('The road team has won every game so far.');
+  else if(done.length >= 3 && done.every(g => g.won === g.home)) facts.push('The home team has won every game so far.');
+  const last2 = done.slice(-2);
+  if(last2.length === 2 && last2[0].won === last2[1].won){ const w = last2[0].won, rf = last2.reduce((x, g) => x + (g.home === w ? g.hr : g.ar), 0), ra = last2.reduce((x, g) => x + (g.home === w ? g.ar : g.hr), 0);
+    facts.push(`${tname(w)} have won two straight, outscoring the ${tname(w === e.a ? e.b : e.a)} ${rf}-${ra}.`); }
+  const tot = t => done.reduce((x, g) => x + (g.home === t ? g.hr : g.ar), 0);
+  facts.push(`Series runs: ${tname(e.a)} ${tot(e.a)}, ${tname(e.b)} ${tot(e.b)}.`);
+  return `<div class="panel rd"><div class="rd-row">${cards}</div><p class="rd-note">${esc(facts.join(' '))}</p></div>`;
+}
+function allHands(e){
+  const col = t => {
+    const arms = (META.bullpen[t] || {}).arms || [];
+    const od = seriesOdds(e.s), g = od && od.games.find(x => x.g === e.game), st = g ? (t === e.a ? g.sa : g.sb) : null;
+    const extra = DATA.filter(p => p.team === t && p.role !== 'RP' && !(st && st.p && st.p.id === p.id)).map(p => [p, role5(p, e)]).filter(([, r]) => r && r.tag === 'Relief').map(([p]) => p.name);
+    return `<div><h4>${esc(tname(t))} bullpen</h4>${arms.map(a => `<div class="ah-arm"><button class="hlink" data-id="${a.id}">${esc(a.name)}${a.closer ? ' (CL)' : ''}</button><span class="ah-t ${a.status === 'fresh' ? 'ok' : a.status}">${a.status === 'fresh' ? 'Ready' : a.status === 'tired' ? 'Tired' : 'Likely out'}</span></div>`).join('')}
+      ${extra.length ? `<p class="rd-note">Starters who could come out of the pen: ${esc(extra.join(', '))}</p>` : ''}</div>`;
+  };
+  const sum = t => { const arms = (META.bullpen[t] || {}).arms || [], cl = arms.find(a => a.closer); return {fresh: arms.filter(a => a.status === 'fresh').length, tired: arms.filter(a => a.status !== 'fresh').length, cl}; };
+  const A = sum(e.a), B = sum(e.b), line = t => { const x = t === e.a ? A : B; return `${tname(t)} ${x.cl ? (x.cl.status === 'fresh' ? 'have their closer' : x.cl.status === 'tired' ? 'have a tired closer' : "probably won't have their closer") : 'have no set closer'} and ${x.fresh} fresh arm${x.fresh === 1 ? '' : 's'}`; };
+  return `<div class="panel ah"><div class="pair">${col(e.a)}${col(e.b)}</div><p class="rd-note"><b>The edge:</b> ${esc(line(e.a))}. ${esc(line(e.b))}.</p></div>`;
+}
+function elimPanels(e, open){
+  return `<section class="wta"><div class="sechead"><h3>Road to Game ${e.game}</h3><p>Every game of the series, and who's available for the one that decides it.</p></div>${roadStrip(e)}
+    <details class="ah-wrap"${open ? ' open' : ''}><summary>All hands on deck: who's available for Game ${e.game}</summary>${allHands(e)}</details></section>`;
+}
+// countdown to first pitch on the spotlight banner
+function tickCountdowns(){
+  document.querySelectorAll('[data-firstpitch]').forEach(el => {
+    const ms = new Date(el.dataset.firstpitch) - Date.now();
+    if(ms <= 0){ el.hidden = true; return; }
+    const d = Math.floor(ms / DAY), h = Math.floor(ms % DAY / 36e5), m = Math.floor(ms % 36e5 / 6e4);
+    el.textContent = `First pitch in ${d ? d + 'd ' : ''}${h}h ${m}m`;
+  });
+}
+setInterval(tickCountdowns, 30e3);
 
 function csHead(p){
   const el = elimOfTeam(p.team);
@@ -2677,7 +2806,7 @@ function render(p){
         <div class="stat"><b>${f0(s.whiff)}</b><span>Whiff</span></div><div class="stat"><b>${f0(s.chase)}</b><span>Chase</span></div>
         <div class="stat"><b>${xw(s.xwoba)}</b><span>xwOBA</span></div></div></div>
     <div class="starts">${availPill}${starts}${shareBtn(pitcherPath(p), p.name)}</div>
-    <div id="livebox">${liveSection(p)}</div>
+    <div id="livebox">${liveSection(p)}</div>${elimOfTeam(p.team) ? elimPanels(elimOfTeam(p.team), false) : ''}
     <div class="legend">${legend}</div>
     <div class="tabs" role="tablist"><button class="tab" role="tab" data-mode="fan" aria-selected="${state.mode==='fan'}">Fan cheat sheet</button><button class="tab" role="tab" data-mode="report" aria-selected="${state.mode==='report'}">Scouting report</button>${EXTRAS.matchups[p.id] ? `<button class="tab" role="tab" data-mode="hitters" aria-selected="${state.mode==='hitters'}">Hitters</button>` : ''}${canPlay(p) ? `<button class="tab" role="tab" data-mode="play" aria-selected="${state.mode==='play'}">Play the at-bat</button>` : ''}</div>
     ${state.mode==='play' ? gameSection(p) : state.mode==='fan' ? fanSection(p) : state.mode==='hitters' ? hittersSection(p) : `
@@ -2709,6 +2838,7 @@ function render(p){
   document.querySelectorAll('.dp[data-id]').forEach(b => b.onclick = () => { pick(+b.dataset.id, false); window.scrollTo({top:0, behavior:'smooth'}); });
   document.querySelectorAll('.tab').forEach(b => b.onclick = () => { state.mode = b.dataset.mode; save(); render(p); });
   if(state.mode==='report') buildJump();
+  tickCountdowns();
   markLiveTiles();
   if(state.mode==='play') initGame(p); else cancelAnimationFrame(raf);
   if(state.mode==='fan') renderFan(p);
