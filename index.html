@@ -3382,8 +3382,8 @@ function resolvePitch(now){
         let w = (zi.inz ? pm.xi : pm.xo) * (sitM===1 ? 1.3 : sitM===-1 ? .8 : 1) * (lookM===true ? 1.12 : lookM===false ? .9 : 1) * (0.45 + 0.65*q) * (0.45 + 0.65*a) * (zi.dist > 0.4 ? .6 : 1);
         w = clamp(w, .04, 1.4);
         const dz = MOUSE ? aim.z - pt.z : G.look==='ANY' ? (Math.random()-0.5)*0.4 : clamp(aim.z - pt.z, -1, 1)*0.6;   // + means bat above the ball -> topped
-        const la = clamp(14 - dz*38 + (Math.random()*16 - 8), -25, 75);
-        const ev = clamp(68 + 42*Math.min(1, w/0.9) + (Math.random()*8 - 4), 55, 117);
+        let la = clamp(14 - dz*38 + (Math.random()*16 - 8), -25, 75);
+        let ev = clamp(68 + 42*Math.min(1, w/0.9) + (Math.random()*8 - 4), 55, 117);
         const pull = f < 0.93, oppo = f > 0.98;
         const field = G.hand==='R' ? (pull ? 'left' : oppo ? 'right' : 'center') : (pull ? 'right' : oppo ? 'left' : 'center');
         const sprayX = field==='left' ? -1 : field==='right' ? 1 : (Math.random()-0.5)*0.6;
@@ -3394,6 +3394,8 @@ function resolvePitch(now){
           const u = Math.random();
           let kind = u < shr ? 'HR' : u < shr + s3 ? '3B' : u < shr + s3 + s2 ? '2B' : '1B';
           if(minHit === 2 && kind === '1B') kind = '2B';
+          // locked in: about a quarter of the hits leave the yard
+          if(locked && kind !== 'HR' && Math.random() < 0.2){ kind = 'HR'; la = 24 + Math.random()*10; ev = Math.max(ev, 102 + Math.random()*10); }
           endAB = kind; cls = 'good';
           const dist = Math.round(360 + (ev - 95)*6 + Math.random()*30);
           res = {HR:`Home run, ${dist} ft to ${field}`, '3B':`Triple into the ${field} gap`, '2B':`Double to ${field}`, '1B': la < 8 ? `Ground ball single to ${field}` : la > 50 ? `Bloop single to ${field}` : `Line drive single to ${field}`}[kind];
