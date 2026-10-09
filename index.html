@@ -404,18 +404,20 @@ section{scroll-margin-top:56px}
 .elim-ps{margin-bottom:4px}
 .plat{background:linear-gradient(135deg,#f4f4f2 0%,#d9dadb 35%,#f0f0ee 52%,#b9bcc0 78%,#e5e4e2 100%)}
 .series.cs>.eyebrow{background:linear-gradient(135deg,#f4f4f2 0%,#d9dadb 35%,#f0f0ee 52%,#b9bcc0 78%,#e5e4e2 100%);color:#1b1e22;border:0;border-radius:5px;padding:4px 8px}
-.pennant{border-radius:14px;padding:3px;margin-bottom:12px;background:linear-gradient(135deg,#f4f4f2 0%,#d9dadb 35%,#f0f0ee 52%,#b9bcc0 78%,#e5e4e2 100%)}
-.pn-in{border-radius:12px;background:#11161a;color:#fff;display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:stretch;overflow:hidden}
-.pn-side{padding:14px 18px;display:flex;flex-direction:column;justify-content:center;min-width:0}
-.pn-side.a{border-left:8px solid var(--acc);background:linear-gradient(90deg,color-mix(in srgb, var(--acc) 22%, transparent),transparent 75%)}
-.pn-side.b{border-right:8px solid var(--acc);text-align:right;background:linear-gradient(270deg,color-mix(in srgb, var(--acc) 22%, transparent),transparent 75%)}
-.pn-t{font-family:var(--f-display);font-weight:700;font-size:clamp(20px,3.4vw,32px);text-transform:uppercase;line-height:1}
-.pn-side small{font-size:12px;color:#aeb5b2;margin-top:4px}
-.pn-mid{padding:10px clamp(14px,3vw,28px);text-align:center;color:#15181b;display:flex;flex-direction:column;justify-content:center;clip-path:polygon(8% 0,92% 0,100% 50%,92% 100%,8% 100%,0 50%);background:linear-gradient(135deg,#f4f4f2 0%,#d9dadb 35%,#f0f0ee 52%,#b9bcc0 78%,#e5e4e2 100%)}
-.pn-mid b{font-family:var(--f-display);font-size:13px;letter-spacing:.22em;color:#4a4f55}
-.pn-mid span{font-family:var(--f-display);font-size:clamp(30px,5vw,44px);font-weight:700;line-height:1}
-.pn-mid em{font-style:normal;font-size:10px;letter-spacing:.1em;color:#4a4f55;font-weight:600;text-transform:uppercase}
-.pn-link{display:block;margin:6px auto 3px;background:none;border:0;color:#1b1e22;font:inherit;font-size:12.5px;font-weight:600;cursor:pointer}
+.pennant{margin-bottom:12px}
+.pn-wave{position:relative;height:130px;border-radius:14px;overflow:hidden;background:linear-gradient(135deg,#d6d7d8 0%,#b4b7bb 35%,#cfd0d1 52%,#979ba1 78%,#c3c5c7 100%)}
+.pn-wave svg{position:absolute;inset:0;width:100%;height:100%}
+.pn-row{position:relative;z-index:1;height:100%;display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;padding:0 22px}
+.pn-side{min-width:0}.pn-side.b{text-align:right}
+.pn-t{font-family:var(--f-display);font-weight:700;font-size:clamp(24px,3.6vw,34px);text-transform:uppercase;line-height:1}
+.pn-pct{font-family:var(--f-display);font-weight:700;font-size:clamp(19px,2.6vw,24px);line-height:1.1;margin-top:3px}
+.pn-side small{display:block;font-size:12.5px;font-weight:600;margin-top:1px}
+.pn-mid{position:relative;text-align:center;color:#0f1215;padding:10px 34px}
+.pn-mid::before{content:'';position:absolute;inset:-6px -10px;border-radius:50%;background:radial-gradient(closest-side,rgba(214,215,216,.97),rgba(206,208,210,.9) 62%,rgba(200,202,205,0));z-index:-1}
+.pn-mid b{display:block;font-family:var(--f-display);font-size:14px;letter-spacing:.24em;color:#1f2428}
+.pn-mid span{display:block;font-family:var(--f-display);font-size:clamp(36px,5vw,48px);font-weight:700;line-height:1}
+.pn-mid em{display:block;font-style:normal;font-size:10.5px;letter-spacing:.12em;color:#1f2428;font-weight:700;text-transform:uppercase}
+.pn-link{display:block;margin:6px auto 3px;background:none;border:0;color:var(--ink-2);font:inherit;font-size:12.5px;font-weight:600;cursor:pointer}
 .teamband.cs i:first-child{flex:5}.teamband.cs i.plat{flex:1.4;background:linear-gradient(135deg,#f4f4f2 0%,#d9dadb 35%,#f0f0ee 52%,#b9bcc0 78%,#e5e4e2 100%)}
 .sline b.plat{color:#1b1e22;background:linear-gradient(135deg,#f4f4f2 0%,#d9dadb 35%,#f0f0ee 52%,#b9bcc0 78%,#e5e4e2 100%)}
 .pp-g.cs{box-shadow:inset 0 0 0 1.5px #d9dadb}
@@ -458,7 +460,7 @@ section{scroll-margin-top:56px}
 .pl-mound{color:#c9d1ce;font-size:11.5px;margin-top:1px}.pl-btn{margin-top:4px;border-color:#4cc79c;color:#4cc79c}
 .islive::after{content:'';display:inline-block;width:7px;height:7px;border-radius:50%;background:#4cc79c;margin-left:6px;vertical-align:1px}
 .pn-ab{display:none}
-@media (max-width:560px){ .pn-side{padding:10px 10px} .pn-side small{display:none} .cmp{font-size:13px} .pn-full{display:none} .pn-ab{display:inline} .pn-mid{padding:8px 16px} .pn-mid em{font-size:9px} }
+@media (max-width:560px){ .pn-wave{height:112px} .pn-row{padding:0 14px} .pn-side small{display:none} .cmp{font-size:13px} .pn-full{display:none} .pn-ab{display:inline} .pn-mid{padding:8px 16px} .pn-mid em{display:none} }
 </style>
 </head>
 <body>
@@ -1896,15 +1898,33 @@ function pickColor(team, avoid){
 function csAccents(a, b){ const ca = pickColor(a), cb = pickColor(b, ca); return {[a]: ca, [b]: cb}; }
 const isCS = s => s && /^(AL|NL)CS/.test(s.name);
 const csSeriesOf = team => SERIES.find(s => isCS(s) && s.teams.includes(team));
+// championship banner: platinum across the whole width; fine wave lines in each team's color weave through the middle
+// and thicken toward that team's end until they become solid color
+function waveSVG(ca, cb){
+  const w = 864, h = 130, n = 30, cx = w / 2, sp = (h + 24) / n; let s = '';
+  for(let i = 0; i < n; i++){
+    const y0 = -12 + (i + .5) * sp, ph = i * .3, mine = i % 2 ? 1 : -1, col = mine < 0 ? ca : cb;
+    const top = [], bot = [];
+    for(let x = -6; x <= w + 6; x += 4){
+      const t = (x - cx) / (w / 2) * mine;
+      const hw = t >= 0 ? sp * (.04 + 1.01 * Math.pow(Math.min(1, Math.max(0, (t - .05) / .67)), 1.25)) : sp * .04 * Math.max(0, 1 + t * 1.1);
+      const y = y0 + 1.8 * (1 + Math.abs(x - cx) / w * .8) * Math.sin(x / w * Math.PI * 5 + ph);
+      top.push(x + ',' + (y - hw).toFixed(1)); bot.unshift(x + ',' + (y + hw).toFixed(1));
+    }
+    s += `<polygon points="${top.concat(bot).join(' ')}" fill="${col}"/>`;
+  }
+  return `<svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="none" aria-hidden="true">${s}</svg>`;
+}
 function pennant(s, opts){
   const [a, b] = s.teams, acc = csAccents(a, b), ra = recOf(a), rb = recOf(b);
   const wa = ra && ra.series ? ra.series[0] : 0, wb = rb && rb.series ? rb.series[0] : 0;
   const rnd = s.name.split(' · ')[0];
   const od = seriesOdds(s);
-  const side = (t, r, cls) => `<div class="pn-side ${cls}" style="--acc:${acc[t]}"><div class="pn-t"><span class="pn-full">${esc(tname(t))}</span><span class="pn-ab">${esc(teamOf(t).ab)}</span></div>${od ? `<div class="pn-pct">${pct(od.p[t])}</div><small>to win the series</small>` : `<small>${r ? `${r.post[0]}-${r.post[1]} this postseason` : ''}</small>`}</div>`;
-  return `<div class="pennant"><div class="pn-in">${side(a, ra, 'a')}
+  const ink = c => lumOf(c) > .32 ? '#17130a' : '#ffffff';   // dark text on light team colors, white on dark ones
+  const side = (t, r, cls) => `<div class="pn-side ${cls}" style="color:${ink(acc[t])}"><div class="pn-t"><span class="pn-full">${esc(tname(t))}</span><span class="pn-ab">${esc(teamOf(t).ab)}</span></div>${od ? `<div class="pn-pct">${pct(od.p[t])}</div><small>to win the series</small>` : `<small>${r ? `${r.post[0]}-${r.post[1]} this postseason` : ''}</small>`}</div>`;
+  return `<div class="pennant"><div class="pn-wave">${waveSVG(acc[a], acc[b])}<div class="pn-row">${side(a, ra, 'a')}
     <div class="pn-mid"><b>${esc(rnd)}</b><span>${wa} – ${wb}</span><em>Best of ${ra ? ra.bestOf : 7} · to the World Series</em></div>
-    ${side(b, rb, 'b')}</div>${od ? oddsBar(od) : ''}${opts && opts.link ? `<button class="pn-link" data-preview="${esc(seriesKey(s))}">Series preview →</button>` : ''}</div>`;
+    ${side(b, rb, 'b')}</div></div>${opts && opts.link ? `<button class="pn-link" data-preview="${esc(seriesKey(s))}">Series preview →</button>` : ''}</div>`;
 }
 
 /* ---------- who wins the series: starting-pitcher matchups + home field ---------- */
