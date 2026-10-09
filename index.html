@@ -1942,6 +1942,7 @@ document.addEventListener('click', e => {
 /* ---------- live game tracker (public site: reads MLB's live feed straight from the browser) ---------- */
 const LIVE = {};   // pitcher id -> live line for today's in-progress game
 const LIVEG = {};  // game id -> score, inning and who's pitching right now
+let nextStart = Infinity, late = false;
 const MLB = 'https://statsapi.mlb.com/api';
 const FASTS_JS = ['FF','SI','FC'];
 document.addEventListener('click', e => { const b = e.target.closest('[data-live]'); if(!b) return;
@@ -1950,9 +1951,13 @@ document.addEventListener('click', e => { const b = e.target.closest('[data-live
 async function pollLive(){
   let any = false;
   try{
-    const day = d => d.toLocaleDateString('en-CA'), now = new Date(), y = new Date(now - 864e5);
-    const res = await Promise.all([day(y), day(now)].map(d => fetch(`${MLB}/v1/schedule?sportId=1&date=${d}&gameType=F,D,L,W`).then(r => r.json())));
-    const games = res.flatMap(r => (r.dates || []).flatMap(d => d.games)).filter(g => g.status.abstractGameState === 'Live');
+    const day = d => d.toLocaleDateString('en-CA'), now = new Date(), y = new Date(+now - 864e5), tm = new Date(+now + 864e5);
+    const res = await Promise.all([day(y), day(now), day(tm)].map(d => fetch(`${MLB}/v1/schedule?sportId=1&date=${d}&gameType=F,D,L,W`).then(r => r.json())));
+    const sched = res.flatMap(r => (r.dates || []).flatMap(d => d.games));
+    const games = sched.filter(g => g.status.abstractGameState === 'Live');
+    // next scheduled first pitch, so the page only checks again when a game is supposed to start
+    late = sched.some(g => g.status.abstractGameState === 'Preview' && +new Date(g.gameDate) <= +now && +now - new Date(g.gameDate) < 6 * 36e5);   // past first pitch, not started (delay)
+    nextStart = Math.min(...sched.filter(g => g.status.abstractGameState === 'Preview').map(g => +new Date(g.gameDate)).concat(META.duels.map(d => +new Date(d.time))).filter(t => t > +now), Infinity);
     for(const k in LIVE) delete LIVE[k];
     for(const k in LIVEG) delete LIVEG[k];
     for(const g of games){
@@ -1964,7 +1969,9 @@ async function pollLive(){
   if(box && p) box.innerHTML = liveSection(p);
   const ban = document.getElementById('liveban'); if(ban && p) ban.innerHTML = liveBanner(p);
   markLiveTiles();
-  setTimeout(pollLive, any ? 3 * 60e3 : 10 * 60e3);
+  // every 2 minutes while a game is on; otherwise wait for the next scheduled first pitch (then every 2 minutes until it goes live)
+  if(any || late) setTimeout(pollLive, 2 * 60e3);
+  else if(nextStart < Infinity) setTimeout(pollLive, Math.min(Math.max(nextStart - Date.now(), 0) + 60e3, 2147483647));
 }
 function readLive(f){
   const ld = f.liveData, box = ld.boxscore.teams, ls = ld.linescore, gd = f.gameData;
@@ -2015,7 +2022,7 @@ function liveSection(p){
     if(res.length >= 2){ const on = res.filter(x => ['single','double','triple','home_run','walk','hit_by_pitch','intent_walk'].includes(x.ev)).length;
       calls.push([on / res.length <= .25 ? 'hit' : on / res.length <= .4 ? 'part' : 'miss', `Hitters we gave him the edge on: ${on} on base in ${res.length} trips`]); } }
   const ICON = {hit:'✓', part:'~', miss:'✕'};
-  return `<section class="livesec"><div class="panel live"><div class="livehead"><span class="lvdot">● LIVE</span><span>${esc(L.tag)}</span><span class="z">updates every 3 minutes</span></div>
+  return `<section class="livesec"><div class="panel live"><div class="livehead"><span class="lvdot">● LIVE</span><span>${esc(L.tag)}</span><span class="z">updates every 2 minutes</span></div>
     <div class="pair" style="gap:16px;margin-top:8px"><div>
       <div class="liveline"><b>${L.ip} IP</b> · ${L.r} R · ${L.h} H · ${L.k} K · ${L.bb} BB · <b>${L.np} pitches</b></div>
       ${fb && inns.length ? `<div class="eyebrow" style="margin-top:10px">${esc(plain(fb))} speed by inning${norm ? ` (normal ${norm.toFixed(1)})` : ''}</div><div class="lvelo">${bars}</div>
