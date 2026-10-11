@@ -1717,6 +1717,7 @@ const TEAMS = {
 const teamOf = name => TEAMS[name] || {ab:name.slice(0,3).toUpperCase(), p:'#0d6b4f', s:'#c4ced3', l:'#0d6b4f', d:'#4cc79c'};
 // series preview pages lead with a team's other color when its main one floods the page (Guardians: red, not navy)
 const PREVIEW_COLORS = {'Cleveland Guardians': {p:'#C8102E', s:'#00385D', l:'#C8102E', d:'#ff7085'}};
+const swatchOf = t => (PREVIEW_COLORS[t] || teamOf(t)).p;   // little team squares in the list (Guardians red)
 function applyTeam(name, preview){
   const t = (preview && PREVIEW_COLORS[name]) || teamOf(name), r = document.documentElement.style;
   r.setProperty('--team-p', t.p); r.setProperty('--team-s', t.s); r.setProperty('--team-l', t.l); r.setProperty('--team-d', t.d);
@@ -1754,7 +1755,7 @@ function buildNav(){
     for(const t of s.teams){
       const sps = DATA.filter(p => p.team===t && p.role!=='RP').sort((a,b)=>a.starts[0].date.localeCompare(b.starts[0].date));
       const rps = DATA.filter(p => p.team===t && p.role==='RP').sort(penOrder);
-      h += `<div class="team"><span><span class="tsw" style="background:${teamOf(t).p}"></span>${t}</span>${seriesDots(t)}</div>`;
+      h += `<div class="team"><span><span class="tsw" style="background:${swatchOf(t)}"></span>${t}</span>${seriesDots(t)}</div>`;
       for(const p of sps){
         const r5 = eS && role5(p, eS);
         h += `<button class="pbtn" data-id="${p.id}"><span>${esc(p.name)}${r5 && (r5.cls === 'sp') ? `<span class="r5 ${r5.cls}">${esc(r5.tag)}</span>` : ''}</span><small>${p.throws}HP</small></button>`;
@@ -2494,7 +2495,7 @@ function duelStrip(){
   const fmtT = d => { try{ return new Date(d.time).toLocaleString(undefined,{weekday:'short', hour:'numeric', minute:'2-digit'}); }catch(e){ return d.date; } };
   const card = d => {
     const A = DATA.find(p=>p.id===d.awayP), Hm = DATA.find(p=>p.id===d.homeP);
-    const side = (p, team, cls) => `<div class="${cls}"><div class="dt"><span class="tsw" style="background:${teamOf(team).p}"></span>${teamOf(team).ab}</div>
+    const side = (p, team, cls) => `<div class="${cls}"><div class="dt"><span class="tsw" style="background:${swatchOf(team)}"></span>${teamOf(team).ab}</div>
       ${p ? `<button class="dp" data-id="${p.id}">${esc(p.name)}</button><div class="dx">${p.throws}HP · ${f0(p.season.k)} K · ${xw(p.season.xwoba)} xwOBA</div>` : `<button class="dp" disabled>TBD</button><div class="dx">Starter not announced</div>`}</div>`;
     let rows = '';
     if(A && Hm){
