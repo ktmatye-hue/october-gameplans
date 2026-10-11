@@ -2428,7 +2428,7 @@ function buildProbables(){
     const who = p ? `<button data-id="${p.id}"><span class="full">${esc(p.name)}</span><span class="short">${esc(shortName(p.name))}</span></button><span class="hd">${p.throws}</span>`
                   : `<span class="tbd">TBD</span>`;
     const s = seriesState(team);
-    return `<div class="pp-p"><span class="sw" style="background:${t.p}"></span><span class="ab">${t.ab}</span>${who}${s ? `<span class="pp-sw ${s.cls}" title="${s.w} series win${s.w===1?'':'s'}" aria-label="${s.w} series win${s.w===1?'':'s'}">${'<i class="on"></i>'.repeat(s.w)}${'<i></i>'.repeat(Math.max(0, s.need - s.w))}</span>` : ''}</div>`;
+    return `<div class="pp-p"><span class="sw" style="background:${swatchOf(team)}"></span><span class="ab">${t.ab}</span>${who}${s ? `<span class="pp-sw ${s.cls}" title="${s.w} series win${s.w===1?'':'s'}" aria-label="${s.w} series win${s.w===1?'':'s'}">${'<i class="on"></i>'.repeat(s.w)}${'<i></i>'.repeat(Math.max(0, s.need - s.w))}</span>` : ''}</div>`;
   };
   let html = '', lastDay = '';
   // finished games from the last day, with a report card for each starter
@@ -2436,7 +2436,7 @@ function buildProbables(){
     html += `<div class="pp-day">FINAL</div>`;
     for(const r of GRADES.recent){
       const fin = (team, runs, pid, won) => { const p = DATA.find(x => x.id === pid), t = teamOf(team);
-        return `<div class="pp-p"><span class="sw" style="background:${t.p}"></span><span class="ab">${t.ab}</span>${p ? `<button data-id="${p.id}"><span class="full">${esc(p.name)}</span><span class="short">${esc(shortName(p.name))}</span></button>` : '<span class="tbd">–</span>'}<b class="pp-r${won ? ' w' : ''}">${runs}</b></div>`; };
+        return `<div class="pp-p"><span class="sw" style="background:${swatchOf(team)}"></span><span class="ab">${t.ab}</span>${p ? `<button data-id="${p.id}"><span class="full">${esc(p.name)}</span><span class="short">${esc(shortName(p.name))}</span></button>` : '<span class="tbd">–</span>'}<b class="pp-r${won ? ' w' : ''}">${runs}</b></div>`; };
       const has = r.awayP || r.homeP;
       html += `<div class="pp-g fin"><div class="pp-m"><span>${esc(new Date(r.time).toLocaleDateString(undefined,{weekday:'short'}))}</span><span>Final</span></div>
         ${fin(r.away, r.awayR, r.awayP, r.awayR > r.homeR)}${fin(r.home, r.homeR, r.homeP, r.homeR > r.awayR)}
