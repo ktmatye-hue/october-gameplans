@@ -1716,7 +1716,8 @@ const TEAMS = {
 };
 const teamOf = name => TEAMS[name] || {ab:name.slice(0,3).toUpperCase(), p:'#0d6b4f', s:'#c4ced3', l:'#0d6b4f', d:'#4cc79c'};
 // series preview pages lead with a team's other color when its main one floods the page (Guardians: red, not navy)
-const PREVIEW_COLORS = {'Cleveland Guardians': {p:'#C8102E', s:'#00385D', l:'#C8102E', d:'#ff7085'}};
+const PREVIEW_COLORS = {'Cleveland Guardians': {p:'#C8102E', s:'#00385D', l:'#C8102E', d:'#ff7085'},
+  'Milwaukee Brewers': {p:'#FFC52F', s:'#12284B', l:'#9a6f00', d:'#FFC52F'}};   // Brewers gold (a deeper gold for text on light backgrounds)
 const swatchOf = t => (PREVIEW_COLORS[t] || teamOf(t)).p;   // little team squares in the list (Guardians red)
 function applyTeam(name, preview){
   const t = (preview && PREVIEW_COLORS[name]) || teamOf(name), r = document.documentElement.style;
