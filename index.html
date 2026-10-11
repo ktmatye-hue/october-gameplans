@@ -1715,8 +1715,10 @@ const TEAMS = {
   'San Francisco Giants':{ab:'SF', p:'#27251F', s:'#FD5A1E', l:'#27251F', d:'#FD5A1E'},
 };
 const teamOf = name => TEAMS[name] || {ab:name.slice(0,3).toUpperCase(), p:'#0d6b4f', s:'#c4ced3', l:'#0d6b4f', d:'#4cc79c'};
-function applyTeam(name){
-  const t = teamOf(name), r = document.documentElement.style;
+// series preview pages lead with a team's other color when its main one floods the page (Guardians: red, not navy)
+const PREVIEW_COLORS = {'Cleveland Guardians': {p:'#C8102E', s:'#00385D', l:'#C8102E', d:'#ff7085'}};
+function applyTeam(name, preview){
+  const t = (preview && PREVIEW_COLORS[name]) || teamOf(name), r = document.documentElement.style;
   r.setProperty('--team-p', t.p); r.setProperty('--team-s', t.s); r.setProperty('--team-l', t.l); r.setProperty('--team-d', t.d);
 }
 const COLOR = {FF:'--s1',SL:'--s2',CH:'--s3',SI:'--s4',CU:'--s5',KC:'--s5',CS:'--s5',FC:'--s6',ST:'--s7',SV:'--s7',FS:'--s8'};
@@ -2084,7 +2086,7 @@ function showPreview(s){
   state.elim = null; state.preview = seriesKey(s); save(); setHash('preview/' + seriesKey(s));
   document.querySelectorAll('.pbtn,[data-elim]').forEach(x => x.setAttribute('aria-current', 'false'));
   const [a, b] = s.teams, A = staff(a), B = staff(b), rot = projectRotation(s);
-  applyTeam(a);
+  applyTeam(a, true);
   const cs = isCS(s), acc = cs ? csAccents(a, b) : {[a]: teamOf(a).l, [b]: teamOf(b).l};
   const edge = (va, vb, better) => va == null || vb == null || va === vb ? ['', ''] : ((va > vb) === (better > 0) ? ['w', ''] : ['', 'w']);
   const row = (lab, va, vb, better, fmt) => { const [ea, eb] = better ? edge(va, vb, better) : ['', ''];
