@@ -2221,7 +2221,7 @@ function buildJump(){
   if(secs.length < 4) return;
   secs.forEach((s, i) => { if(!s.id) s.id = 'sec-' + i; });
   const nav = document.createElement('nav'); nav.className = 'jump'; nav.setAttribute('aria-label', 'Jump to section');
-  nav.innerHTML = secs.map(s => { const t = s.querySelector('.sechead h3').textContent.trim(); return `<button data-jump="${s.id}">${esc(JUMP_NAMES[t] || (/Plate umpire/.test(t) ? 'Umpire' : t.startsWith('Earlier this series') ? 'This series' : t.replace(/^His /, '')))}</button>`; }).join('');
+  nav.innerHTML = secs.map(s => { const t = s.querySelector('.sechead h3').textContent.trim(); return `<button data-jump="${s.id}">${esc(JUMP_NAMES[t] || (/plate umpire/i.test(t) ? 'Umpire' : t.startsWith('Earlier this series') ? 'This series' : t.replace(/^His /, '')))}</button>`; }).join('');
   secs[0].before(nav);
   nav.onclick = e => { const b = e.target.closest('[data-jump]'); if(b) document.getElementById(b.dataset.jump).scrollIntoView({behavior:'smooth', block:'start'}); };
   if('IntersectionObserver' in window){
