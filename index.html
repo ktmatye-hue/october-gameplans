@@ -1354,8 +1354,7 @@ const TEAMS = {
 };
 const teamOf = name => TEAMS[name] || {ab:name.slice(0,3).toUpperCase(), p:'#0d6b4f', s:'#c4ced3', l:'#0d6b4f', d:'#4cc79c'};
 // series preview pages lead with a team's other color when its main one floods the page (Guardians: red, not navy)
-const PREVIEW_COLORS = {'Cleveland Guardians': {p:'#C8102E', s:'#00385D', l:'#C8102E', d:'#ff7085'},
-  'Milwaukee Brewers': {p:'#FFC52F', s:'#12284B', l:'#9a6f00', d:'#FFC52F'}};   // Brewers gold (a deeper gold for text on light backgrounds)
+const PREVIEW_COLORS = {'Cleveland Guardians': {p:'#C8102E', s:'#00385D', l:'#C8102E', d:'#ff7085'}};
 const swatchOf = t => (PREVIEW_COLORS[t] || teamOf(t)).p;   // little team squares in the list (Guardians red)
 function applyTeam(name, preview){
   const t = (preview && PREVIEW_COLORS[name]) || teamOf(name), r = document.documentElement.style;
@@ -1595,10 +1594,10 @@ function waveSVG(ca, cb, ta, tb){
   return `<svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="none" aria-hidden="true">${defs ? `<defs>${defs}</defs>` : ''}${s}</svg>`;
 }
 // World Series banner: the gold flag art across the middle, each team's pinstripes fading in from its side
-const WS_ALT = {'Cleveland Guardians': '#C8102E', 'Tampa Bay Rays': '#8FBCE6', 'Milwaukee Brewers': '#FFC52F', 'Los Angeles Dodgers': '#EF3E42'};
+const WS_ALT = {'Cleveland Guardians': '#C8102E', 'Tampa Bay Rays': '#8FBCE6', 'Los Angeles Dodgers': '#EF3E42'};   // Brewers stay navy (user's call)
 function wsColors(a, b){
   const ca = teamOf(a).p, d = (x, y) => { const [r1, g1, b1] = rgbOf(x), [r2, g2, b2] = rgbOf(y); return Math.hypot(r1 - r2, g1 - g2, b1 - b2); };
-  let cb = teamOf(b).p; if(d(ca, cb) < 90) cb = WS_ALT[b] || teamOf(b).s;
+  let cb = teamOf(b).p; if(d(ca, cb) < 90 && !WAVE_FADE[a] && !WAVE_FADE[b]) cb = WS_ALT[b] || teamOf(b).s;   // a fade side never clashes
   return {[a]: ca, [b]: cb};
 }
 function wsBanner(s, opts){
