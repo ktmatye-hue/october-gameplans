@@ -537,8 +537,8 @@ section{scroll-margin-top:56px}
 .ws-ban{position:relative;height:170px;border-radius:14px;overflow:hidden;background:#05070d;color:#fff}
 .ws-art{position:absolute;inset:0;background:var(--img) center 18%/auto 128% no-repeat}
 .ws-side{position:absolute;top:0;bottom:0;width:38%}
-.ws-side::after{content:'';position:absolute;inset:-20px;background:repeating-linear-gradient(105deg,transparent 0 11px,rgba(243,215,122,.45) 11px 12.5px)}
-.ws-side.b::after{background:repeating-linear-gradient(75deg,transparent 0 11px,rgba(255,255,255,.4) 11px 12.5px)}
+.ws-side::after{content:'';position:absolute;inset:-20px;background:repeating-linear-gradient(105deg,transparent 0 11px,var(--st) 11px 12.5px)}
+.ws-side.b::after{background:repeating-linear-gradient(75deg,transparent 0 11px,var(--st) 11px 12.5px)}
 .ws-side.a{left:0;-webkit-mask:linear-gradient(90deg,#000 45%,transparent);mask:linear-gradient(90deg,#000 45%,transparent)}
 .ws-side.b{right:0;-webkit-mask:linear-gradient(270deg,#000 45%,transparent);mask:linear-gradient(270deg,#000 45%,transparent)}
 .ws-ban .pn-row{position:relative;z-index:1}
@@ -1595,6 +1595,8 @@ function waveSVG(ca, cb, ta, tb){
 }
 // World Series banner: the gold flag art across the middle, each team's pinstripes fading in from its side
 const WS_ALT = {'Cleveland Guardians': '#C8102E', 'Tampa Bay Rays': '#8FBCE6', 'Los Angeles Dodgers': '#EF3E42'};   // Brewers stay navy (user's call)
+// pinstripe color follows the team, not the side: gold on Brewers navy, white for everyone else
+const WS_STRIPE = {'Milwaukee Brewers': 'rgba(243,215,122,.5)', _: 'rgba(255,255,255,.4)'};
 function wsColors(a, b){
   const ca = teamOf(a).p, d = (x, y) => { const [r1, g1, b1] = rgbOf(x), [r2, g2, b2] = rgbOf(y); return Math.hypot(r1 - r2, g1 - g2, b1 - b2); };
   let cb = teamOf(b).p; if(d(ca, cb) < 90 && !WAVE_FADE[a] && !WAVE_FADE[b]) cb = WS_ALT[b] || teamOf(b).s;   // a fade side never clashes
@@ -1608,7 +1610,7 @@ function wsBanner(s, opts){
   const next = (s.games || []).find(g => !g.won);
   const side = (t, r, cls) => `<div class="ws-s ${cls}" style="color:${ink(t)}"><div class="pn-t"><span class="pn-full">${esc(tname(t))}</span><span class="pn-ab">${esc(teamOf(t).ab)}</span></div>${od ? `<div class="pn-pct">${pct(od.p[t])}</div><small>to win the title</small>` : ''}</div>`;
   return `<div class="pennant ws"><div class="ws-ban"><div class="ws-art" style="--img:url('${ART.ws || ''}')"></div>
-    <div class="ws-side a" style="background:${fill(a)}"></div><div class="ws-side b" style="background:${fill(b)}"></div>
+    <div class="ws-side a" style="background:${fill(a)};--st:${WS_STRIPE[a] || WS_STRIPE._}"></div><div class="ws-side b" style="background:${fill(b)};--st:${WS_STRIPE[b] || WS_STRIPE._}"></div>
     <div class="pn-row">${side(a, ra, 'a')}<div class="ws-mid"><b>WORLD SERIES</b><span>${wa} – ${wb}</span><em>Best of 7 · for the title</em>${next && !wa && !wb ? `<div class="sp-cd ws-cd" data-firstpitch="${next.time}"></div>` : ''}</div>${side(b, rb, 'b')}</div></div>
     ${opts && opts.link ? `<button class="pn-link" data-preview="${esc(seriesKey(s))}">Series preview →</button>` : ''}</div>`;
 }
