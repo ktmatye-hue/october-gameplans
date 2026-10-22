@@ -3427,10 +3427,19 @@ document.addEventListener('mousemove', e => { if(tip.hidden) return; const x = M
 buildProbables();
 buildNav();
 document.getElementById('main').addEventListener('click', e => { const w = e.target.closest('.whybtn[data-elim]'); if(w) showElim(w.dataset.elim, false); });
-if(!route(location.hash)){
-  const pv = state.preview && SERIES.find(x => x.teams.length === 2 && seriesKey(x) === state.preview);
-  if(pv) showPreview(pv); else if(state.elim && ELIM[state.elim]) showElim(state.elim); else pick(state.id);
+// landing page (no link in the address): one of the two starters in the day's game, live game first, else the next one.
+// Uses MLB's announced probables; until they're named, the projected starters from the series odds.
+function gameDayPitcher(){
+  const now = Date.now(), ds = [...META.duels].sort((x, y) => (y.live ? 1 : 0) - (x.live ? 1 : 0) || new Date(x.time) - new Date(y.time));
+  for(const d of ds){
+    const s = SERIES.find(x => x.teams.length === 2 && x.teams.includes(d.away) && x.teams.includes(d.home)), od = s && seriesOdds(s), g = od && od.games.find(x => x.g === d.game);
+    const proj = t => { const q = g && (t === od.A ? g.sa : g.sb); return q && q.p ? q.p.id : null; };   // projected starter for a side MLB hasn't named
+    const ids = [d.awayP || proj(d.away), d.homeP || proj(d.home)].filter(id => id && DATA.some(p => p.id === id));
+    if(ids.length) return ids[Math.floor(Math.random() * ids.length)];
+  }
+  return state.id;
 }
+if(!route(location.hash)) pick(gameDayPitcher() || state.id);
 pollLive();
 </script>
 
