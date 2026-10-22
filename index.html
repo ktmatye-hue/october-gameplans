@@ -1642,8 +1642,7 @@ function wsBanner(s, opts){
   const ink = t => !WAVE_FADE[t] && lumOf(col[t]) > .45 ? '#17130a' : '#fff';
   const next = (s.games || []).find(g => !g.won);
   const side = (t, r, cls) => `<div class="ws-s ${cls}" style="color:${ink(t)}"><div class="pn-t"><span class="pn-full">${esc(tname(t))}</span><span class="pn-ab">${esc(teamOf(t).ab)}</span></div>${od ? `<div class="pn-pct">${pct(od.p[t])}</div><small>to win the title</small>` : ''}</div>`;
-  const city = (t, cls) => ART[t] ? `<div class="ws-city ${cls}" aria-hidden="true" style="--m:url('${ART[t]}');background:${WS_TINT[t] || '#f3d77a'}"></div>` : '';
-  return `<div class="pennant ws"><div class="ws-ban"><div class="ws-art" style="--img:url('${ART.ws || ''}')"></div>${city(a, 'a')}${city(b, 'b')}
+  return `<div class="pennant ws"><div class="ws-ban"><div class="ws-art" style="--img:url('${ART.ws || ''}')"></div>
     <div class="ws-side a" style="background:${fill(a)};--st:${WS_STRIPE[a] || WS_STRIPE._}"></div><div class="ws-side b" style="background:${fill(b)};--st:${WS_STRIPE[b] || WS_STRIPE._}"></div>
     <div class="pn-row">${side(a, ra, 'a')}<div class="ws-mid"><b>WORLD SERIES</b><span>${wa} – ${wb}</span><em>Best of 7 · for the title</em>${next && !wa && !wb ? `<div class="sp-cd ws-cd" data-firstpitch="${next.time}"></div>` : ''}</div>${side(b, rb, 'b')}</div></div>
     ${opts && opts.link ? `<button class="pn-link" data-preview="${esc(seriesKey(s))}">Series preview →</button>` : ''}</div>`;
