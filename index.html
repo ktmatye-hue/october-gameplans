@@ -653,7 +653,7 @@ const DATA = [{"id":519242,"name":"Chris Sale","team":"Atlanta Braves","role":"S
       for(let i=0;i<20;i++){ const row = []; for(let j=0;j<20;j++) row.push(Math.round(parseInt(s[i*20+j],36)/35*99)); g.push(row); } b.heat[c] = g; }
     for(const c in b.zones) for(const z in b.zones[c]){ const a = b.zones[c][z]; if(Array.isArray(a)) b.zones[c][z] = Object.fromEntries(ZK.map((k,i)=>[k,a[i]])); } } })();
 const META = {
- "generated": "2026-11-13T08:32-08:00",
+ "generated": "2026-11-13T12:32-08:00",
  "series": [
   {
    "name": "Waiting on an opponent",
@@ -760,17 +760,17 @@ const META = {
   "Milwaukee Brewers": 158
  },
  "abbr": {
+  "New York Yankees": "NYY",
   "San Diego Padres": "SD",
   "Milwaukee Brewers": "MIL",
-  "Tampa Bay Rays": "TB",
-  "Boston Red Sox": "BOS",
-  "Cleveland Guardians": "CLE",
-  "Philadelphia Phillies": "PHI",
-  "Chicago Cubs": "CHC",
   "Los Angeles Dodgers": "LAD",
   "Chicago White Sox": "CWS",
-  "New York Yankees": "NYY",
+  "Cleveland Guardians": "CLE",
+  "Philadelphia Phillies": "PHI",
   "Atlanta Braves": "ATL",
+  "Boston Red Sox": "BOS",
+  "Tampa Bay Rays": "TB",
+  "Chicago Cubs": "CHC",
   "Houston Astros": "HOU"
  },
  "record": {
